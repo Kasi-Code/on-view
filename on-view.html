@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* =========================================================
+           THEME VARIABLES (The Magic)
+           ========================================================= */
+        :root {
+            /* Default to Dark Mode */
+            --bg-dark: #0a0a0a;
+            --bg-silk: radial-gradient(circle at 50% 0%, #1f1f1f 0%, #0a0a0a 80%);
+            --card-bg: linear-gradient(145deg, #181818, #111111);
+            --card-bg-solid: #181818; /* For sticky headers */
+            --border-color: #2a2a2a;
+            --text-main: #f5f5f5;
+            --text-muted: #9a9a9a;
+            --accent-line: #333;
+            --btn-bg: #f5f5f5;
+            --btn-text: #0a0a0a;
+        }
+
+        /* Light Mode Variables (Applied when body has .light-mode class) */
+        body.light-mode {
+            --bg-dark: #f0f0f0;
+            --bg-silk: radial-gradient(circle at 50% 0%, #ffffff 0%, #e0e0e0 80%);
+            --card-bg: linear-gradient(145deg, #ffffff, #e6e6e6);
+            --card-bg-solid: #f0f0f0;
+            --border-color: #cccccc;
+            --text-main: #1a1a1a;
+            --text-muted: #666666;
+            --accent-line: #ccc;
+            --btn-bg: #1a1a1a;
+            --btn-text: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+        body {
+            background: var(--bg-silk);
+            color: var(--text-main);
+            height: 100vh; 
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 20px 100px 20px;
+            transition: background 0.4s ease, color 0.4s ease; /* Smooth theme transition */
+        }
+
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 2.5fr; 
+            gap: 40px; 
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 40px; 
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.2), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.05); 
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+            position: relative;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        /* =========================================================
+           LEFT COLUMN
+           ========================================================= */
+        .left-column { height: 100%; display: flex; flex-direction: column; }
+        .left-static-top { flex-shrink: 0; }
+        
+        .profile-image-wrapper { 
+            width: 100%; 
+            max-width: 280px; 
+            aspect-ratio: 3 / 4; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3); 
+            border: 1px solid var(--border-color); 
+            margin-bottom: 25px; 
+        }
+        
+        .profile-image-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        
+        .left-scrollable-middle { flex-grow: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 20px; position: relative; }
+        .left-scrollable-middle::-webkit-scrollbar { width: 4px; }
+        .left-scrollable-middle::-webkit-scrollbar-thumb { background: var(--accent-line); border-radius: 10px; }
+        
+        .left-static-bottom { flex-shrink: 0; }
+
+        .section-title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--accent-line); }
+
+        .detail-list { list-style: none; margin-bottom: 30px; }
+        .detail-list li { margin-bottom: 15px; font-size: 14px; }
+        .detail-list li strong { display: block; color: var(--text-main); margin-bottom: 3px; font-weight: 600; }
+        .detail-list li span { color: var(--text-muted); font-size: 13px; }
+
+        .social-links { display: flex; gap: 15px; margin-top: 10px; }
+        .social-links a { display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; background-color: var(--border-color); border: 1px solid var(--border-color); border-radius: 50%; color: var(--text-main); font-size: 18px; text-decoration: none; transition: all 0.3s ease; }
+        .social-links a:hover { background-color: var(--text-main); color: var(--bg-dark); border-color: var(--text-main); transform: translateY(-3px); }
+
+        /* =========================================================
+           RIGHT COLUMN
+           ========================================================= */
+        .right-column { height: 100%; padding: 0; position: relative; }
+
+        .right-column-header { position: sticky; top: 0; background: transparent; z-index: 10; padding: 40px 40px 0 40px; transition: box-shadow 0.3s ease, background-color 0.4s ease; }
+        .right-column-header .section-title { border-bottom: 1px solid var(--accent-line); margin-bottom: 0; padding-bottom: 20px; }
+        .right-column-header.is-sticky { box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3); background-color: var(--card-bg-solid); }
+
+        .right-scrollable-content { padding: 0 40px 40px 40px; overflow-y: auto; height: calc(100% - 80px); position: relative; }
+        .right-scrollable-content::-webkit-scrollbar { width: 6px; }
+        .right-scrollable-content::-webkit-scrollbar-thumb { background: var(--accent-line); border-radius: 10px; }
+
+        .tab-content { display: none; animation: fadeIn 0.4s ease; width: 100%; padding-top: 20px; }
+        .tab-content.active { display: block; }
+
+        .bio-text { font-size: 14px; line-height: 1.8; color: var(--text-muted); margin-bottom: 20px; }
+        .skills-list { list-style: none; padding-left: 10px; }
+        .skills-list li { position: relative; padding-left: 20px; margin-bottom: 12px; font-size: 14px; color: var(--text-muted); }
+        .skills-list li::before { content: '•'; position: absolute; left: 0; color: var(--text-muted); font-size: 18px; }
+        .skills-list .nested { list-style: none; padding-left: 15px; margin-top: 8px; }
+        .skills-list .nested li::before { content: '◦'; font-size: 16px; }
+        
+        /* Projects Grid Desktop */
+        .projects-grid { display: flex; flex-direction: column; gap: 30px; margin-top: 20px; }
+        .project-card { display: grid; grid-template-columns: 200px 1fr; gap: 25px; background-color: var(--border-color); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; transition: all 0.3s ease; align-items: center; }
+        .project-card:hover { border-color: #888; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transform: translateY(-5px); }
+        .project-image { width: 100%; height: 150px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); background-color: var(--bg-dark); display: flex; justify-content: center; align-items: center; }
+        .project-image img { width: 100%; height: 100%; object-fit: cover; }
+        .project-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+        .project-info p { font-size: 13px; line-height: 1.6; color: var(--text-muted); margin-bottom: 10px; }
+        .project-tags { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .project-tags span { font-size: 11px; background-color: var(--bg-dark); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; color: var(--text-muted); }
+        
+        .projects-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; background-color: var(--border-color); border: 1px solid var(--border-color); border-radius: 50px; color: var(--text-main); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; margin-top: 20px; }
+        .projects-btn:hover { background-color: var(--text-main); color: var(--bg-dark); border-color: var(--text-main); transform: translateY(-2px); }
+        .video-placeholder { width: 100%; height: 350px; background-color: var(--bg-dark); border-radius: 20px; display: flex; justify-content: center; align-items: center; color: var(--text-muted); font-size: 20px; border: 1px dashed var(--accent-line); margin-top: 20px; }
+
+        /* Back to Top Buttons */
+        .back-to-top { position: absolute; bottom: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; background-color: var(--btn-bg); color: var(--btn-text); border: none; font-size: 16px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 20; }
+        .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg-solid); border-top: 1px solid var(--border-color); display: flex; justify-content: center; padding: 15px 0; z-index: 100; transition: background 0.4s ease; }
+        .nav-items { display: flex; gap: 40px; align-items: center; }
+        .nav-item { color: var(--text-muted); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: color 0.3s ease; background: none; border: none; }
+        .nav-item:hover, .nav-item.active { color: var(--text-main); }
+
+        /* Overlays (Login & Register) */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+        .overlay.active { opacity: 1; visibility: visible; }
+        .auth-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; padding: 40px 35px; width: 100%; max-width: 420px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); position: relative; animation: cardPop 0.3s ease-out; }
+        @keyframes cardPop { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .login-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; }
+        .logo { display: flex; align-items: flex-start; color: var(--text-main); line-height: 0.8; }
+        .logo .v { font-size: 64px; font-weight: 800; letter-spacing: -2px; }
+        .logo .on-view { display: flex; flex-direction: column; font-size: 24px; font-weight: 600; margin-top: 5px; margin-left: -2px; }
+        .tagline { font-size: 10px; font-weight: 600; color: var(--text-muted); text-align: right; border-left: 1px solid var(--accent-line); padding-left: 10px; margin-top: 10px; line-height: 1.4; }
+        .form-group { margin-bottom: 15px; position: relative; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .input-wrapper i.prefix { position: absolute; left: 20px; color: var(--text-muted); font-size: 16px; }
+        .input-wrapper i.suffix { position: absolute; right: 20px; color: var(--text-muted); font-size: 16px; cursor: pointer; transition: color 0.3s ease; }
+        .input-wrapper i.suffix:hover { color: var(--text-main); }
+        .form-control { width: 100%; background-color: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 50px; padding: 16px 20px 16px 50px; color: var(--text-main); font-size: 14px; outline: none; transition: all 0.3s ease; }
+        .form-control[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
+        body.light-mode .form-control[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0); }
+        .form-control::placeholder { color: var(--text-muted); }
+        .form-control:focus { border-color: #888; box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+        .form-options { display: flex; justify-content: space-between; align-items: center; margin: 20px 5px; font-size: 12px; font-weight: 600; color: var(--text-main); }
+        .remember-me { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .remember-me input[type="checkbox"] { appearance: none; width: 16px; height: 16px; border: 2px solid var(--text-muted); border-radius: 3px; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; }
+        .remember-me input[type="checkbox"]:checked { background-color: var(--text-main); border-color: var(--text-main); }
+        .remember-me input[type="checkbox"]:checked::after { content: '\f00c'; font-family: 'FontAwesome'; color: var(--bg-dark); font-size: 10px; }
+        .forgot-password { color: var(--text-main); text-decoration: none; transition: opacity 0.3s ease; }
+        .forgot-password:hover { opacity: 0.7; }
+        .btn-submit { width: 100%; background-color: var(--text-main); color: var(--bg-dark); border: none; border-radius: 50px; padding: 18px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; margin-top: 10px; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4); opacity: 0.9; }
+        .divider { display: flex; align-items: center; text-align: center; margin: 30px 0 20px 0; color: var(--text-muted); font-size: 11px; font-weight: 600; }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--accent-line); }
+        .divider span { padding: 0 15px; }
+        .login-footer { text-align: center; font-size: 13px; font-weight: 600; color: var(--text-main); }
+        .login-footer a { color: var(--text-main); text-decoration: underline; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; margin-left: 5px; transition: opacity 0.3s ease; cursor: pointer; }
+        .login-footer a:hover { opacity: 0.7; }
+        .hidden { display: none !important; }
+
+        /* Responsive Mobile */
+        @media (max-width: 900px) {
+            body { overflow-y: auto; height: auto; padding-bottom: 100px; } 
+            .app-container { grid-template-columns: 1fr; gap: 30px; height: auto; }
+            .panel { padding: 25px; overflow: visible; } 
+            .left-column { height: auto; overflow-y: visible; }
+            .left-scrollable-middle { overflow-y: visible; padding-right: 0; position: relative; }
+            .left-scrollable-middle .back-to-top { bottom: 0px; right: 0px; }
+            .right-column { padding: 0; } 
+            .right-column-header { padding: 25px 25px 0 25px; position: relative; } 
+            .right-scrollable-content { padding: 0 25px 25px 25px; height: auto; }
+            .profile-image-wrapper { margin: 0 auto 20px auto; }
+            .nav-items { gap: 20px; font-size: 12px; }
+            .video-placeholder { height: 250px; }
+            .project-card { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+            .project-image { height: 200px; }
+            .project-tags { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- ================= LEFT COLUMN ================= -->
+        <div class="left-column panel">
+            <div class="left-static-top">
+                <div class="profile-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kasie">
+                </div>
+                <h2 class="section-title">KASIE</h2>
+            </div>
+
+            <div class="left-scrollable-middle" id="leftScrollContent">
+                <p style="font-size: 14px; margin-bottom: 20px; color: var(--text-muted);">Software, Web Development Path</p>
+                <ul class="detail-list">
+                    <li><strong>Optics</strong><span>Eye Hospital: Senior technician</span><span>Opticians: Optical + Dispensing assistant</span></li>
+                    <li><strong>Music Technology</strong><span>Write, Compose and Produce music</span></li>
+                    <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
+                    <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
+                    <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
+                </ul>
+            </div>
+
+            <button class="back-to-top" id="leftBackToTop" onclick="scrollLeftToTop()">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+
+            <div class="left-static-bottom">
+                <h3 style="font-size: 14px; margin-bottom: 15px; color: var(--text-muted);">Contact me via Email 📧</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= RIGHT COLUMN ================= -->
+        <div class="right-column panel">
+            
+            <div class="right-column-header" id="stickyHeader">
+                <h2 class="section-title" id="dynamicTitle" style="text-align: center;">About Me</h2>
+            </div>
+
+            <div class="right-scrollable-content" id="rightScrollContent">
+                <!-- TAB 1: PROFILE -->
+                <div id="profile" class="tab-content active">
+                    <p class="bio-text">Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...</p>
+                    <p class="bio-text">Moving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.</p>
+                    <p class="bio-text">I am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.</p>
+                </div>
+
+                <!-- TAB 2: SKILLS -->
+                <div id="skills" class="tab-content">
+                    <h3 style="font-size: 14px; margin-bottom: 15px; color: var(--text-main);">Front-End Development</h3>
+                    <ul class="skills-list">
+                        <li>HTML</li>
+                        <li>CSS / SASS / SCSS
+                            <ul class="nested"><li>BEM naming and reusable</li><li>CSS animation</li></ul>
+                        </li>
+                        <li>JavaScript
+                            <ul class="nested">
+                                <li>Interactive Websites</li><li>Intermediate JavaScript</li><li>Command Line</li><li>Git / GitHub</li><li>Front-end Applications with React</li><li>jQuery</li><li>Back-End Development</li><li>SQL and Databases for Web Development</li><li>RESTful API</li><li>Test-Driven Development</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div style="margin-top: 30px;">
+                        <h3 style="font-size: 14px; margin-bottom: 15px; color: var(--text-main);">Programming Languages</h3>
+                        <ul class="skills-list"><li>Python 3</li><li>PHP</li><li>Java</li><li>C#</li></ul>
+                    </div>
+                    <button class="projects-btn" onclick="switchTab('projects', document.querySelector('.nav-item[data-tab=\'projects\']'))">
+                        <i class="fa-solid fa-briefcase"></i> View My Projects
+                    </button>
+                </div>
+
+                <!-- TAB 3: PROJECTS -->
+                <div id="projects" class="tab-content">
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-image"><img src="https://via.placeholder.com/200x150/1a1a1a/ffffff?text=Moji+Gazzetter" alt="Moji Gazzetter"></div>
+                            <div class="project-info"><h3>Moji Gazzetter</h3><p>A map-based app to provide information on countries...</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>jQuery</span><span>PHP</span><span>API</span></div></div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image"><img src="https://via.placeholder.com/200x150/1a1a1a/ffffff?text=Company+Directory" alt="Company Directory"></div>
+                            <div class="project-info"><h3>Company Directory</h3><p>Showing an understanding of CRUD...</p><div class="project-tags"><span>SQL</span><span>MySQL</span><span>CRUD</span><span>Database</span></div></div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image"><img src="https://via.placeholder.com/200x150/1a1a1a/ffffff?text=Booki" alt="Booki"></div>
+                            <div class="project-info"><h3>Booki</h3><p>UI/UX focused project...</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>Flexbox</span><span>Responsive</span><span>UI/UX</span></div></div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image"><img src="https://via.placeholder.com/200x150/1a1a1a/ffffff?text=OhMyFood" alt="OhMyFood"></div>
+                            <div class="project-info"><h3>OhMyFood</h3><p>UI/UX focused project...</p><div class="project-tags"><span>HTML</span><span>CSS</span><span>BEM</span><span>Animations</span><span>Mobile-First</span></div></div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image"><img src="https://via.placeholder.com/200x150/1a1a1a/ffffff?text=Moji+Flight" alt="Moji Flight"></div>
+                            <div class="project-info"><h3>Moji Flight</h3><p>I have created this project by using just frameworks...</p><div class="project-tags"><span>Frameworks</span><span>Bootstrap</span></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: HOBBY -->
+                <div id="hobby" class="tab-content">
+                    <p class="bio-text" style="text-align: center;">- This video was captured at 4k 30fps and edited using a mobile device.</p>
+                    <div class="video-placeholder"><i class="fa-solid fa-play" style="margin-right: 10px;"></i> Video Player Placeholder</div>
+                    <h3 style="margin-top: 30px; text-align: center; color: var(--text-main);">Interests</h3>
+                    <p class="bio-text" style="text-align: center;">- I enjoy being outdoors...</p>
+                </div>
+            </div>
+
+            <button class="back-to-top" id="rightBackToTop" onclick="scrollRightToTop()">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlays (Login & Register) -->
+    <div id="login-overlay" class="overlay active">
+        <div class="auth-card" id="login-card">
+            <div class="login-header">
+                <div class="logo"><span class="v">V</span><div class="on-view"><span>ON</span><span>VIEW</span></div></div>
+                <div class="tagline">See more.<br>Do more.</div>
+            </div>
+            <form onsubmit="event.preventDefault(); closeLogin();">
+                <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-user prefix"></i><input type="text" class="form-control" placeholder="Username" required></div></div>
+                <div class="form-group"><div class="input-wrapper"><i class="fa-solid fa-lock prefix"></i><input type="password" class="form-control" placeholder="Password" required><i class="fa-regular fa-eye suffix"></i></div></div>
+                <div class="form-options"><label class="remember-me"><input type="checkbox" checked> Remember me</label><a href="#" class="forgot-password">Forgot password?</a></div>
+                <button type="submit" class="btn-submit">Submit <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+            <div class="divider"><span>New here?</span></div>
+            <div class="login-footer">
+                Create an account: <a onclick="showRegister()">Sign Up <i class="fa-solid fa-arrow-right"></i></a>
+                <a onclick="closeLogin()" style="display: block; margin-top: 20px; text-decoration: none; color: var(--text-muted);">Skip</a>
+            </div>
+        </div>
+
+        <div class="auth-card hidden" id="register-card">
+            <div class="login-header">
+                <div class="logo"><span class="v">V</span><div class="on-view"><span>ON</span><span>VIEW</span></div></div>
+                <div class="tagline">See more.<br>Do more.</div>
+            </div>
+            <form onsubmit="event.preventDefault(); closeLogin();">
+                <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-envelope prefix"></i><input type="email" class="form-control" placeholder="Email" required></div></div>
+                <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-user prefix"></i><input type="text" class="form-control" placeholder="Username" required></div></div>
+                <div class="form-group"><div class="input-wrapper"><i class="fa-solid fa-lock prefix"></i><input type="password" class="form-control" placeholder="Password" required></div></div>
+                <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-calendar prefix"></i><input type="date" class="form-control" required style="color: var(--text-muted);"></div></div>
+                <button type="submit" class="btn-submit" style="margin-top: 20px;">Submit <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+            <div class="divider"><span>Already a member?</span></div>
+            <div class="login-footer">
+                <a onclick="showLogin()">Login <i class="fa-solid fa-arrow-right"></i></a>
+                <a onclick="closeLogin()" style="display: block; margin-top: 20px; text-decoration: none; color: var(--text-muted);">Skip</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-items">
+            <button class="nav-item" onclick="openLogin()">oV</button>
+            <button class="nav-item active" data-tab="profile" onclick="switchTab('profile', this, 'About Me')"><i class="fa-regular fa-user"></i> Profile</button>
+            <button class="nav-item" data-tab="skills" onclick="switchTab('skills', this, 'Skills')"><i class="fa-solid fa-code"></i> Skills</button>
+            <button class="nav-item" data-tab="projects" onclick="switchTab('projects', this, 'Projects')" style="display: none;"></button> 
+            <button class="nav-item" data-tab="hobby" onclick="switchTab('hobby', this, 'Hobby')"><i class="fa-regular fa-image"></i> Hobby</button>
+            
+            <!-- LIGHT/DARK MODE TOGGLE -->
+            <button class="nav-item" onclick="toggleTheme(this)">
+                <i class="fa-regular fa-sun"></i> <span id="themeText">Light</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // 1. Switch Tabs
+        function switchTab(tabId, buttonElement, titleText) {
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(tab => { tab.classList.remove('active'); });
+
+            const allNavItems = document.querySelectorAll('.nav-item');
+            allNavItems.forEach(item => { item.classList.remove('active'); });
+
+            document.getElementById(tabId).classList.add('active');
+            
+            if (titleText) {
+                document.getElementById('dynamicTitle').innerText = titleText;
+            } else {
+                const titles = { 'profile': 'About Me', 'skills': 'Skills', 'projects': 'Projects', 'hobby': 'Hobby' };
+                document.getElementById('dynamicTitle').innerText = titles[tabId] || 'On View';
+            }
+
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+            
+            document.getElementById('rightScrollContent').scrollTop = 0;
+        }
+
+        // 2. Login/Register Overlay Controls
+        function openLogin() { showLogin(); document.getElementById('login-overlay').classList.add('active'); }
+        function closeLogin() { document.getElementById('login-overlay').classList.remove('active'); }
+        function showRegister() { document.getElementById('login-card').classList.add('hidden'); document.getElementById('register-card').classList.remove('hidden'); }
+        function showLogin() { document.getElementById('register-card').classList.add('hidden'); document.getElementById('login-card').classList.remove('hidden'); }
+
+        // 3. THEME TOGGLE FUNCTION
+        function toggleTheme(buttonElement) {
+            const body = document.body;
+            const themeText = document.getElementById('themeText');
+            const icon = buttonElement.querySelector('i');
+            
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                themeText.innerText = 'Dark';
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                themeText.innerText = 'Light';
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        // 4. Scroll Logic for BOTH Columns
+        const rightContent = document.getElementById('rightScrollContent');
+        const leftContent = document.getElementById('leftScrollContent');
+        const stickyHeader = document.getElementById('stickyHeader');
+        const rightBackToTopBtn = document.getElementById('rightBackToTop');
+        const leftBackToTopBtn = document.getElementById('leftBackToTop');
+        
+        rightContent.addEventListener('scroll', () => {
+            if (rightContent.scrollTop > 10) { stickyHeader.classList.add('is-sticky'); } 
+            else { stickyHeader.classList.remove('is-sticky'); }
+
+            if (rightContent.scrollTop > 100) { rightBackToTopBtn.classList.add('show'); } 
+            else { rightBackToTopBtn.classList.remove('show'); }
+        });
+
+        leftContent.addEventListener('scroll', () => {
+            if (leftContent.scrollTop > 50) { leftBackToTopBtn.classList.add('show'); } 
+            else { leftBackToTopBtn.classList.remove('show'); }
+        });
+
+        // 5. Smooth Scroll to Top functions
+        function scrollRightToTop() { rightContent.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function scrollLeftToTop() { leftContent.scrollTo({ top: 0, behavior: 'smooth' }); }
+    </script>
+</body>
+</html>
