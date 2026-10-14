@@ -8,15 +8,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* =========================================================
-           THEME VARIABLES (The Magic)
-           ========================================================= */
         :root {
-            /* Default to Dark Mode */
             --bg-dark: #0a0a0a;
             --bg-silk: radial-gradient(circle at 50% 0%, #1f1f1f 0%, #0a0a0a 80%);
             --card-bg: linear-gradient(145deg, #181818, #111111);
-            --card-bg-solid: #181818; /* For sticky headers */
+            --card-bg-solid: #181818;
             --border-color: #2a2a2a;
             --text-main: #f5f5f5;
             --text-muted: #9a9a9a;
@@ -25,7 +21,6 @@
             --btn-text: #0a0a0a;
         }
 
-        /* Light Mode Variables (Applied when body has .light-mode class) */
         body.light-mode {
             --bg-dark: #f0f0f0;
             --bg-silk: radial-gradient(circle at 50% 0%, #ffffff 0%, #e0e0e0 80%);
@@ -50,7 +45,7 @@
             flex-direction: column;
             justify-content: center;
             padding: 40px 20px 100px 20px;
-            transition: background 0.4s ease, color 0.4s ease; /* Smooth theme transition */
+            transition: background 0.4s ease, color 0.4s ease;
         }
 
         .app-container {
@@ -68,9 +63,7 @@
             border: 1px solid var(--border-color);
             border-radius: 30px;
             padding: 40px; 
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.2), 
-                inset 0 1px 0 rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
             display: flex;
             flex-direction: column;
             overflow: hidden; 
@@ -137,7 +130,6 @@
         .skills-list .nested { list-style: none; padding-left: 15px; margin-top: 8px; }
         .skills-list .nested li::before { content: '◦'; font-size: 16px; }
         
-        /* Projects Grid Desktop */
         .projects-grid { display: flex; flex-direction: column; gap: 30px; margin-top: 20px; }
         .project-card { display: grid; grid-template-columns: 200px 1fr; gap: 25px; background-color: var(--border-color); border: 1px solid var(--border-color); border-radius: 20px; padding: 20px; transition: all 0.3s ease; align-items: center; }
         .project-card:hover { border-color: #888; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); transform: translateY(-5px); }
@@ -152,18 +144,15 @@
         .projects-btn:hover { background-color: var(--text-main); color: var(--bg-dark); border-color: var(--text-main); transform: translateY(-2px); }
         .video-placeholder { width: 100%; height: 350px; background-color: var(--bg-dark); border-radius: 20px; display: flex; justify-content: center; align-items: center; color: var(--text-muted); font-size: 20px; border: 1px dashed var(--accent-line); margin-top: 20px; }
 
-        /* Back to Top Buttons */
         .back-to-top { position: absolute; bottom: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; background-color: var(--btn-bg); color: var(--btn-text); border: none; font-size: 16px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 20; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
 
-        /* Bottom Navigation */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg-solid); border-top: 1px solid var(--border-color); display: flex; justify-content: center; padding: 15px 0; z-index: 100; transition: background 0.4s ease; }
         .nav-items { display: flex; gap: 40px; align-items: center; }
         .nav-item { color: var(--text-muted); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: color 0.3s ease; background: none; border: none; }
         .nav-item:hover, .nav-item.active { color: var(--text-main); }
 
-        /* Overlays (Login & Register) */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
         .overlay.active { opacity: 1; visibility: visible; }
         .auth-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; padding: 40px 35px; width: 100%; max-width: 420px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); position: relative; animation: cardPop 0.3s ease-out; }
@@ -200,19 +189,66 @@
         .login-footer a:hover { opacity: 0.7; }
         .hidden { display: none !important; }
 
-        /* Responsive Mobile */
+        /* =========================================================
+           RESPONSIVE MOBILE
+           ========================================================= */
         @media (max-width: 900px) {
-            body { overflow-y: auto; height: auto; padding-bottom: 100px; } 
-            .app-container { grid-template-columns: 1fr; gap: 30px; height: auto; }
-            .panel { padding: 25px; overflow: visible; } 
-            .left-column { height: auto; overflow-y: visible; }
-            .left-scrollable-middle { overflow-y: visible; padding-right: 0; position: relative; }
-            .left-scrollable-middle .back-to-top { bottom: 0px; right: 0px; }
-            .right-column { padding: 0; } 
-            .right-column-header { padding: 25px 25px 0 25px; position: relative; } 
-            .right-scrollable-content { padding: 0 25px 25px 25px; height: auto; }
+            /* Allow the whole page to scroll naturally */
+            body { 
+                overflow-y: auto; 
+                height: auto; 
+                padding-bottom: 100px; 
+            } 
+            
+            .app-container { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 30px; 
+                height: auto; 
+            }
+
+            /* LEFT CARD: The Long Receipt (No inner scroll) */
+            .left-column { 
+                height: auto; 
+                overflow-y: visible; 
+                flex-shrink: 0;
+            }
+            /* Reset the height and overflow so it grows naturally */
+            .left-scrollable-middle { 
+                flex-grow: 0; 
+                overflow-y: visible; 
+                padding-right: 0; 
+                margin-bottom: 0; 
+            }
+            /* Hide the left back-to-top button on mobile because it's not needed */
+            .left-column .back-to-top {
+                display: none !important;
+            }
+            
+            /* RIGHT CARD: The Windowed Box */
+            .right-column { 
+                padding: 0; 
+                height: calc(100vh - 150px); 
+                min-height: 500px; 
+                overflow: hidden;
+            } 
+            
+            .right-column-header { 
+                padding: 25px 25px 0 25px; 
+                position: sticky; 
+                top: 0; 
+                z-index: 10;
+            } 
+            
+            .right-scrollable-content { 
+                padding: 0 25px 25px 25px; 
+                height: calc(100% - 75px); 
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch; 
+            }
+            
             .profile-image-wrapper { margin: 0 auto 20px auto; }
-            .nav-items { gap: 20px; font-size: 12px; }
+            .nav-items { gap: 20px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
             .video-placeholder { height: 250px; }
             .project-card { grid-template-columns: 1fr; gap: 15px; text-align: center; }
             .project-image { height: 200px; }
@@ -225,7 +261,7 @@
     <div class="app-container">
         
         <!-- ================= LEFT COLUMN ================= -->
-        <div class="left-column panel">
+        <div class="left-column panel" id="leftCard">
             <div class="left-static-top">
                 <div class="profile-image-wrapper">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kasie">
@@ -238,7 +274,6 @@
                 <ul class="detail-list">
                     <li><strong>Optics</strong><span>Eye Hospital: Senior technician</span><span>Opticians: Optical + Dispensing assistant</span></li>
                     <li><strong>Music Technology</strong><span>Write, Compose and Produce music</span></li>
-                    <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
                     <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
                     <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
                 </ul>
@@ -258,21 +293,19 @@
         </div>
 
         <!-- ================= RIGHT COLUMN ================= -->
-        <div class="right-column panel">
+        <div class="right-column panel" id="rightCard">
             
             <div class="right-column-header" id="stickyHeader">
                 <h2 class="section-title" id="dynamicTitle" style="text-align: center;">About Me</h2>
             </div>
 
             <div class="right-scrollable-content" id="rightScrollContent">
-                <!-- TAB 1: PROFILE -->
                 <div id="profile" class="tab-content active">
                     <p class="bio-text">Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...</p>
                     <p class="bio-text">Moving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.</p>
                     <p class="bio-text">I am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.</p>
                 </div>
 
-                <!-- TAB 2: SKILLS -->
                 <div id="skills" class="tab-content">
                     <h3 style="font-size: 14px; margin-bottom: 15px; color: var(--text-main);">Front-End Development</h3>
                     <ul class="skills-list">
@@ -295,7 +328,6 @@
                     </button>
                 </div>
 
-                <!-- TAB 3: PROJECTS -->
                 <div id="projects" class="tab-content">
                     <div class="projects-grid">
                         <div class="project-card">
@@ -321,7 +353,6 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: HOBBY -->
                 <div id="hobby" class="tab-content">
                     <p class="bio-text" style="text-align: center;">- This video was captured at 4k 30fps and edited using a mobile device.</p>
                     <div class="video-placeholder"><i class="fa-solid fa-play" style="margin-right: 10px;"></i> Video Player Placeholder</div>
@@ -385,7 +416,6 @@
             <button class="nav-item" data-tab="projects" onclick="switchTab('projects', this, 'Projects')" style="display: none;"></button> 
             <button class="nav-item" data-tab="hobby" onclick="switchTab('hobby', this, 'Hobby')"><i class="fa-regular fa-image"></i> Hobby</button>
             
-            <!-- LIGHT/DARK MODE TOGGLE -->
             <button class="nav-item" onclick="toggleTheme(this)">
                 <i class="fa-regular fa-sun"></i> <span id="themeText">Light</span>
             </button>
@@ -393,7 +423,6 @@
     </nav>
 
     <script>
-        // 1. Switch Tabs
         function switchTab(tabId, buttonElement, titleText) {
             const allTabs = document.querySelectorAll('.tab-content');
             allTabs.forEach(tab => { tab.classList.remove('active'); });
@@ -415,15 +444,19 @@
             }
             
             document.getElementById('rightScrollContent').scrollTop = 0;
+
+            // MOBILE MAGIC: Scroll to the top of the right card
+            if (window.innerWidth <= 900) {
+                const rightCard = document.getElementById('rightCard');
+                rightCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
-        // 2. Login/Register Overlay Controls
         function openLogin() { showLogin(); document.getElementById('login-overlay').classList.add('active'); }
         function closeLogin() { document.getElementById('login-overlay').classList.remove('active'); }
         function showRegister() { document.getElementById('login-card').classList.add('hidden'); document.getElementById('register-card').classList.remove('hidden'); }
         function showLogin() { document.getElementById('register-card').classList.add('hidden'); document.getElementById('login-card').classList.remove('hidden'); }
 
-        // 3. THEME TOGGLE FUNCTION
         function toggleTheme(buttonElement) {
             const body = document.body;
             const themeText = document.getElementById('themeText');
@@ -442,7 +475,6 @@
             }
         }
 
-        // 4. Scroll Logic for BOTH Columns
         const rightContent = document.getElementById('rightScrollContent');
         const leftContent = document.getElementById('leftScrollContent');
         const stickyHeader = document.getElementById('stickyHeader');
@@ -462,7 +494,6 @@
             else { leftBackToTopBtn.classList.remove('show'); }
         });
 
-        // 5. Smooth Scroll to Top functions
         function scrollRightToTop() { rightContent.scrollTo({ top: 0, behavior: 'smooth' }); }
         function scrollLeftToTop() { leftContent.scrollTo({ top: 0, behavior: 'smooth' }); }
     </script>
