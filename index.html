@@ -21,6 +21,8 @@
             --accent-line: #333;
             --btn-bg: #f5f5f5;
             --btn-text: #0a0a0a;
+            /* The Bouncy Curve for animations */
+            --bounce-curve: cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         body.light-mode {
@@ -179,88 +181,116 @@
         .auth-card .login-footer a { color: var(--text-main); }
         .auth-card .form-options { color: var(--text-main); }
         .auth-card .divider { color: var(--text-muted); }
-        .auth-card .tagline { color: #aaa; border-left: 1px solid #555; }
-        body.light-mode .auth-card .tagline { color: var(--text-muted); border-left: 1px solid var(--accent-line); }
+        .auth-card .tagline { color: #aaa; }
+        body.light-mode .auth-card .tagline { color: var(--text-muted); }
 
         @keyframes cardPop { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        .login-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
         
-        /* THE LOGO STYLE (Fixed Outline)*/
-       .logo { display: flex; align-items: flex-start; line-height: 0.8; }
-      
-       /* Solid black fill */
-       .logo .v, .logo .on-view span {
-           color: #000;
-           font-weight: 800;
-           /* This creates a crisp 1px outline AROUND the letters, not inside them */
-           /* -webkit-text-stroke: 1px #b5b5b5; /* Thin grey outline */
-           filter: drop-shadow(0px 0px 1px #ffffff);
-       }
-
-
-       /* OLD */
-        /* .logo .v { font-size: 64px; letter-spacing: -2px; }
-        .logo .on-view { display: flex; flex-direction: column; font-size: 24px; font-weight: 800; margin-top: 5px; margin-left: -2px; } */
-
-        /* THE LOGO STYLE */
+        /* The Header (Holds Logo and Tagline) */
+        .login-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px; 
+            height: 100px; /* Fixed height to ensure vertical centering is consistent */
+        }
+        
+        /* =========================================================
+           THE LOGO STYLE & ANIMATION
+           ========================================================= */
         .logo { display: flex; align-items: flex-start; line-height: 0.8; }
 
-        /* Solid black fill with the crisp 1px outline */
         .logo .v, .logo .on-view span { 
             color: #000; 
             font-weight: 800; 
             filter: drop-shadow(0px 0px 1px #ffffff); /* White outline */
         }
 
-        /* THE BIG V */
-        .logo .v { 
-            font-size: 90px; 
-            letter-spacing: -2px; 
+        .logo .v { font-size: 90px; letter-spacing: -2px; }
+        .logo .on-view { display: flex; flex-direction: column; font-weight: 800; margin-top: 6px; margin-left: -2px; }
+        .logo .on-text { font-size: 38px; margin-left: 4px; margin-top: -2px; }
+        .logo .iew-text { font-size: 42px; margin-left: -8px; }
+
+        /* 1. The Big V slides in from the Left */
+        .logo .v {
+            opacity: 0; 
+            animation: slideInLeft 0.6s var(--bounce-curve) forwards;
+            animation-delay: 0.1s;
         }
 
-        /* THE ON / IEW STACK */
-        .logo .on-view { 
-            display: flex; 
-            flex-direction: column; 
-            /* font-size: 39px; */
-            font-weight: 800; 
-            margin-top: 6px; 
-            margin-left: -2px; 
-        }
-        /* NEW: Independent control for ON and IEW */
-        .logo .on-text { 
-            /* Change the size of ON here */
-            font-size: 38px; /* The current size */
-            margin-left: 4px; 
-            margin-top: -2px; 
-            /* You can also add letter-spacing or margins here if needed */
+        /* 2. The IEW slides in from the Right */
+        .logo .iew-text {
+            opacity: 0; 
+            animation: slideInRight 0.7s var(--bounce-curve) forwards;
+            animation-delay: 0.5s; 
         }
 
-        .logo .iew-text { 
-            /* Change the size of IEW here */
-            font-size: 42px; /* The current size */
-            margin-left: -8px; 
-            /* You can also add letter-spacing or margins here if needed */
+        /* 3. The ON drops down from the Top */
+        .logo .on-text {
+            opacity: 0; 
+            animation: dropInTop 0.4s var(--bounce-curve) forwards;
+            animation-delay: 1.0s; 
         }
 
-        /* 
-        =========================================================
-        THE FIX: Light mode logo overrides REMOVED
-        =========================================================
-        We removed the previous rule that forced the light-mode logo to be white.
-        This means it will now use the default black fill from above.
-        */
+        @keyframes slideInLeft {
+            0% { opacity: 0; transform: translateX(-120px); } 
+            100% { opacity: 1; transform: translateX(0); }    
+        }
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(120px); } 
+            100% { opacity: 1; transform: translateX(0); }   
+        }
+        @keyframes dropInTop {
+            0% { opacity: 0; transform: translateY(-90px); } 
+            100% { opacity: 1; transform: translateY(0); }   
+        }
 
-        /* .tagline { font-size: 12px; font-weight: 600; text-align: left; padding-left: 20px; margin-top: center; line-height: 1.4;} */
+        /* =========================================================
+           THE TAGLINE & LINE ANIMATION (FIXED & PROPER)
+           ========================================================= */
         .tagline { 
+            display: flex;
+            flex-direction: row;
+            align-items: center; /* Vertically centers the line and text */
+            height: 100%; /* Fills the header height to allow centering */
             font-size: 12px; 
             font-weight: 600; 
-            text-align: left; 
-            padding-left: 20px; 
-            padding-top: 8px;    /* NEW: Stretches the line upwards */
-            padding-bottom: 8px; /* NEW: Stretches the line downwards */
+            padding-left: 30px; 
             line-height: 1.4; 
+            text-align: left; 
         }
+
+        /* The Line */
+        .tagline .line {
+            width: 1px;
+            background-color: #555;
+            margin-right: 15px;
+            opacity: 0;  
+            animation: growLine 0.6s var(--bounce-curve) forwards;
+            animation-delay: 1.5s; /* Waits for logo to finish */
+        }
+
+        /* The Text */
+        .tagline .tagline-text {
+            opacity: 0;
+            animation: fadeInText 0.8s ease forwards;
+            animation-delay: 2.1s; /* Waits for line to finish */
+        }
+
+        @keyframes growLine {
+            0% { height: 0px; opacity: 0; }
+            50% { height: 60px; opacity: 1; } /* Overshoot */
+            100% { height: 50px; opacity: 1; } /* Settle */
+        }
+
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateX(-10px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* =========================================================
+           FORMS & INPUTS
+           ========================================================= */
         .form-group { margin-bottom: 15px; position: relative; }
         .input-wrapper { position: relative; display: flex; align-items: center; }
         .input-wrapper i.prefix { position: absolute; left: 20px; color: var(--text-muted); font-size: 16px; }
@@ -440,7 +470,10 @@
         <div class="auth-card" id="login-card">
             <div class="login-header">
                 <div class="logo"><span class="v">V</span><div class="on-view"><span class="on-text">ON</span><span class="iew-text">IEW</span></div></div>
-                <div class="tagline">See more.<br>Do more.</div>
+                <div class="tagline">
+                    <div class="line"></div>
+                    <span class="tagline-text">See more.<br>Do more.</span>
+                </div>
             </div>
             <form onsubmit="event.preventDefault(); closeLogin();">
                 <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-user prefix"></i><input type="text" class="form-control" placeholder="Username" required></div></div>
@@ -461,7 +494,10 @@
                     <span class="v">V</span>
                     <div class="on-view"><span class="on-text">ON</span><span class="iew-text">IEW</span></div>
                 </div>
-                <div class="tagline">See more.<br>Do more.</div>
+                <div class="tagline">
+                    <div class="line"></div>
+                    <span class="tagline-text">See more.<br>Do more.</span>
+                </div>
             </div>
             <form onsubmit="event.preventDefault(); closeLogin();">
                 <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-envelope prefix"></i><input type="email" class="form-control" placeholder="Email" required></div></div>
