@@ -251,7 +251,16 @@
         This means it will now use the default black fill from above.
         */
 
-        .tagline { font-size: 12px; font-weight: 600; text-align: left; padding-left: 10px; margin-top: 10px; line-height: 1.4; }
+        /* .tagline { font-size: 12px; font-weight: 600; text-align: left; padding-left: 20px; margin-top: center; line-height: 1.4;} */
+        .tagline { 
+            font-size: 12px; 
+            font-weight: 600; 
+            text-align: left; 
+            padding-left: 20px; 
+            padding-top: 8px;    /* NEW: Stretches the line upwards */
+            padding-bottom: 8px; /* NEW: Stretches the line downwards */
+            line-height: 1.4; 
+        }
         .form-group { margin-bottom: 15px; position: relative; }
         .input-wrapper { position: relative; display: flex; align-items: center; }
         .input-wrapper i.prefix { position: absolute; left: 20px; color: var(--text-muted); font-size: 16px; }
