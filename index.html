@@ -102,7 +102,37 @@
         
         .left-static-bottom { flex-shrink: 0; }
 
-        .section-title { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--accent-line); }
+        /* The Section Title (Updated with Animation) */
+        .section-title { 
+            font-size: 16px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            position: relative; 
+        }
+
+        /* The Animated Horizon Line */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            background-color: var(--accent-line);
+            width: 100%;
+            transform: scaleX(0); /* Starts empty */
+            transform-origin: left center;
+            animation: spreadLine 0.8s var(--bounce-curve) forwards;
+            animation-delay: 0.2s; 
+        }
+
+        @keyframes spreadLine {
+            0% { transform: scaleX(0); opacity: 0; }
+            60% { transform: scaleX(1.05); opacity: 1; } /* Slight overshoot */
+            100% { transform: scaleX(1); opacity: 1; }
+        }
 
         .detail-list { list-style: none; margin-bottom: 30px; }
         .detail-list li { margin-bottom: 15px; font-size: 14px; }
@@ -119,7 +149,7 @@
         .right-column { height: 100%; padding: 0; position: relative; }
 
         .right-column-header { position: sticky; top: 0; background: transparent; z-index: 10; padding: 40px 40px 0 40px; transition: box-shadow 0.3s ease, background-color 0.4s ease; }
-        .right-column-header .section-title { border-bottom: 1px solid var(--accent-line); margin-bottom: 0; padding-bottom: 20px; }
+        .right-column-header .section-title { margin-bottom: 0; padding-bottom: 20px; }
         .right-column-header.is-sticky { box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3); background-color: var(--card-bg-solid); }
 
         .right-scrollable-content { padding: 0 40px 40px 40px; overflow-y: auto; height: calc(100% - 80px); position: relative; }
@@ -192,7 +222,7 @@
             justify-content: space-between; 
             align-items: center; 
             margin-bottom: 30px; 
-            height: 100px; /* Fixed height to ensure vertical centering is consistent */
+            height: 100px; 
         }
         
         /* =========================================================
@@ -203,56 +233,30 @@
         .logo .v, .logo .on-view span { 
             color: #000; 
             font-weight: 800; 
-            filter: drop-shadow(0px 0px 1px #ffffff); /* White outline */
+            filter: drop-shadow(0px 0px 1px #ffffff); 
         }
 
-        .logo .v { font-size: 90px; letter-spacing: -2px; }
+        .logo .v { font-size: 92px; letter-spacing: -2px; }
         .logo .on-view { display: flex; flex-direction: column; font-weight: 800; margin-top: 6px; margin-left: -2px; }
         .logo .on-text { font-size: 38px; margin-left: 4px; margin-top: -2px; }
-        .logo .iew-text { font-size: 42px; margin-left: -8px; }
+        .logo .iew-text { font-size: 46px; margin-left: -8px; }
 
-        /* 1. The Big V slides in from the Left */
-        .logo .v {
-            opacity: 0; 
-            animation: slideInLeft 0.6s var(--bounce-curve) forwards;
-            animation-delay: 0.1s;
-        }
+        .logo .v { opacity: 0; animation: slideInLeft 0.5s var(--bounce-curve) forwards; animation-delay: 0.1s; }
+        .logo .iew-text { opacity: 0; animation: slideInRight 0.6s var(--bounce-curve) forwards; animation-delay: 0.5s; }
+        .logo .on-text { opacity: 0; animation: dropInTop 0.3s var(--bounce-curve) forwards; animation-delay: 1.0s; }
 
-        /* 2. The IEW slides in from the Right */
-        .logo .iew-text {
-            opacity: 0; 
-            animation: slideInRight 0.7s var(--bounce-curve) forwards;
-            animation-delay: 0.5s; 
-        }
-
-        /* 3. The ON drops down from the Top */
-        .logo .on-text {
-            opacity: 0; 
-            animation: dropInTop 0.4s var(--bounce-curve) forwards;
-            animation-delay: 1.0s; 
-        }
-
-        @keyframes slideInLeft {
-            0% { opacity: 0; transform: translateX(-120px); } 
-            100% { opacity: 1; transform: translateX(0); }    
-        }
-        @keyframes slideInRight {
-            0% { opacity: 0; transform: translateX(120px); } 
-            100% { opacity: 1; transform: translateX(0); }   
-        }
-        @keyframes dropInTop {
-            0% { opacity: 0; transform: translateY(-90px); } 
-            100% { opacity: 1; transform: translateY(0); }   
-        }
+        @keyframes slideInLeft { 0% { opacity: 0; transform: translateX(-120px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { 0% { opacity: 0; transform: translateX(120px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes dropInTop { 0% { opacity: 0; transform: translateY(-90px); } 100% { opacity: 1; transform: translateY(0); } }
 
         /* =========================================================
-           THE TAGLINE & LINE ANIMATION (FIXED & PROPER)
+           THE TAGLINE & LINE ANIMATION
            ========================================================= */
         .tagline { 
             display: flex;
             flex-direction: row;
-            align-items: center; /* Vertically centers the line and text */
-            height: 100%; /* Fills the header height to allow centering */
+            align-items: center; 
+            height: 100%; 
             font-size: 12px; 
             font-weight: 600; 
             padding-left: 30px; 
@@ -260,27 +264,25 @@
             text-align: left; 
         }
 
-        /* The Line */
         .tagline .line {
             width: 1px;
             background-color: #555;
             margin-right: 15px;
             opacity: 0;  
             animation: growLine 0.6s var(--bounce-curve) forwards;
-            animation-delay: 1.5s; /* Waits for logo to finish */
+            animation-delay: 1.5s; 
         }
 
-        /* The Text */
         .tagline .tagline-text {
             opacity: 0;
             animation: fadeInText 0.8s ease forwards;
-            animation-delay: 2.1s; /* Waits for line to finish */
+            animation-delay: 2.1s; 
         }
 
         @keyframes growLine {
             0% { height: 0px; opacity: 0; }
-            50% { height: 60px; opacity: 1; } /* Overshoot */
-            100% { height: 50px; opacity: 1; } /* Settle */
+            50% { height: 60px; opacity: 1; } 
+            100% { height: 50px; opacity: 1; } 
         }
 
         @keyframes fadeInText {
@@ -311,22 +313,18 @@
         .remember-me input[type="checkbox"]:checked { background-color: #111; border-color: #111; }
         .remember-me input[type="checkbox"]:checked::after { content: '\f00c'; font-family: 'FontAwesome'; color: #fff; font-size: 10px; }
         
-        .forgot-password { 
-            color: var(--text-main); 
-            text-decoration: none; 
-            transition: color 0.3s ease; 
-        }
-        .forgot-password:hover { 
-            color: var(--text-muted); 
-        }
+        .forgot-password { color: var(--text-main); text-decoration: none; transition: color 0.3s ease; }
+        .forgot-password:hover { color: var(--text-muted); }
         
         .btn-submit { width: 100%; background-color: #f5f5f5; color: #0a0a0a; border: none; border-radius: 50px; padding: 18px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; margin-top: 10px; }
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4); opacity: 0.9; background-color: #fff; }
         
         .divider { display: flex; align-items: center; text-align: center; margin: 30px 0 20px 0; font-size: 11px; font-weight: 600; }
-        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #444; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background-color: #444; transform: scaleX(0); animation: spreadLine 0.8s var(--bounce-curve) forwards; }
+        .divider::before { transform-origin: right center; margin-right: 15px; animation-delay: 0.6s; }
+        .divider::after { transform-origin: left center; margin-left: 15px; animation-delay: 0.6s; }
         .divider span { padding: 0 15px; }
-        
+
         .login-footer { text-align: center; font-size: 13px; font-weight: 600; }
         .login-footer a { text-decoration: underline; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; margin-left: 5px; transition: opacity 0.3s ease; cursor: pointer; }
         .login-footer a:hover { opacity: 0.7; }
