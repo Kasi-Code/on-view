@@ -122,7 +122,7 @@
             height: 1px;
             background-color: var(--accent-line);
             width: 100%;
-            transform: scaleX(0); /* Starts empty */
+            transform: scaleX(0); 
             transform-origin: left center;
             animation: spreadLine 0.8s var(--bounce-curve) forwards;
             animation-delay: 0.2s; 
@@ -130,7 +130,7 @@
 
         @keyframes spreadLine {
             0% { transform: scaleX(0); opacity: 0; }
-            60% { transform: scaleX(1.05); opacity: 1; } /* Slight overshoot */
+            60% { transform: scaleX(1.05); opacity: 1; } 
             100% { transform: scaleX(1); opacity: 1; }
         }
 
@@ -190,11 +190,14 @@
         .nav-item:hover, .nav-item.active { color: var(--text-main); }
 
         /* =========================================================
-           OVERLAY & AUTH CARD
+           OVERLAY SYSTEM
            ========================================================= */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
         .overlay.active { opacity: 1; visibility: visible; }
-        
+
+        /* =========================================================
+           AUTH CARD (Login & Register - UNCHANGED)
+           ========================================================= */
         .auth-card { 
             background: var(--auth-card-bg);
             border: 1px solid #444;
@@ -226,7 +229,7 @@
         }
         
         /* =========================================================
-           THE LOGO STYLE & ANIMATION
+           THE LOGO STYLE & ANIMATION (RESTORED)
            ========================================================= */
         .logo { display: flex; align-items: flex-start; line-height: 0.8; }
 
@@ -249,9 +252,9 @@
         @keyframes slideInRight { 0% { opacity: 0; transform: translateX(120px); } 100% { opacity: 1; transform: translateX(0); } }
         @keyframes honeyDrop {
             0%   { opacity: 0; transform: translateY(-90px) scaleY(0.88); }
-            75%  { opacity: 1; transform: translateY(0)     scaleY(1.08); }  /* impact + squash */
-            88%  { transform: translateY(4px)  scaleY(0.96); }              /* tiny overshoot */
-            100% { opacity: 1; transform: translateY(0)     scaleY(1); }    /* settle */
+            75%  { opacity: 1; transform: translateY(0)     scaleY(1.08); }
+            88%  { transform: translateY(4px)  scaleY(0.96); }
+            100% { opacity: 1; transform: translateY(0)     scaleY(1); }
         }
 
         /* =========================================================
@@ -294,6 +297,112 @@
             0% { opacity: 0; transform: translateX(-10px); }
             100% { opacity: 1; transform: translateX(0); }
         }
+
+        /* =========================================================
+           SETTINGS CARD (NEW - Separate styling to not break auth card)
+           ========================================================= */
+        .settings-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 40px 35px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            position: relative;
+            animation: cardPop 0.3s ease-out;
+            color: var(--text-main);
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--accent-line);
+        }
+        
+        .settings-header h2 {
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .settings-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .settings-close:hover { color: var(--text-main); }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--accent-line);
+        }
+        .setting-row:last-child { border-bottom: none; }
+
+        .setting-label {
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .setting-label i {
+            font-size: 16px;
+            color: var(--text-muted);
+            width: 20px;
+            text-align: center;
+        }
+
+        /* The Toggle Switch Style */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            border: 1px solid var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #fff;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #f5f5f5;
+            border-color: #f5f5f5;
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+            background-color: #0a0a0a;
+        }
+        body.light-mode .slider { background-color: #ccc; border-color: #bbb; }
+        body.light-mode input:checked + .slider { background-color: #1a1a1a; border-color: #1a1a1a; }
+        body.light-mode input:checked + .slider:before { background-color: #ffffff; }
 
         /* =========================================================
            FORMS & INPUTS
@@ -468,7 +577,9 @@
         </div>
     </div>
 
-    <!-- Overlays (Login & Register) -->
+    <!-- =========================================================
+         LOGIN OVERLAY (UNCHANGED)
+         ========================================================= -->
     <div id="login-overlay" class="overlay active">
         <div class="auth-card" id="login-card">
             <div class="login-header">
@@ -517,6 +628,30 @@
         </div>
     </div>
 
+    <!-- =========================================================
+         SETTINGS OVERLAY (NEW)
+         ========================================================= -->
+    <div id="settings-overlay" class="overlay">
+        <div class="settings-card">
+            <div class="settings-header">
+                <h2>Settings</h2>
+                <button class="settings-close" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Setting 1: Theme Toggle -->
+            <div class="setting-row">
+                <div class="setting-label">
+                    <i class="fa-solid fa-moon" id="themeIcon"></i>
+                    <span id="themeLabel">Dark Mode</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <div class="nav-items">
@@ -526,13 +661,15 @@
             <button class="nav-item" data-tab="projects" onclick="switchTab('projects', this, 'Projects')" style="display: none;"></button> 
             <button class="nav-item" data-tab="hobby" onclick="switchTab('hobby', this, 'Hobby')"><i class="fa-regular fa-image"></i> Hobby</button>
             
-            <button class="nav-item" onclick="toggleTheme(this)">
-                <i class="fa-regular fa-sun"></i> <span id="themeText">Light</span>
+            <!-- Settings Button -->
+            <button class="nav-item" onclick="openSettings()">
+                <i class="fa-solid fa-gear"></i> Settings
             </button>
         </div>
     </nav>
 
     <script>
+        // Tab Switching
         function switchTab(tabId, buttonElement, titleText) {
             const allTabs = document.querySelectorAll('.tab-content');
             allTabs.forEach(tab => { tab.classList.remove('active'); });
@@ -561,29 +698,45 @@
             }
         }
 
+        // Login & Register Controls
         function openLogin() { showLogin(); document.getElementById('login-overlay').classList.add('active'); }
         function closeLogin() { document.getElementById('login-overlay').classList.remove('active'); }
         function showRegister() { document.getElementById('login-card').classList.add('hidden'); document.getElementById('register-card').classList.remove('hidden'); }
         function showLogin() { document.getElementById('register-card').classList.add('hidden'); document.getElementById('login-card').classList.remove('hidden'); }
 
-        function toggleTheme(buttonElement) {
+        // Settings Controls
+        function openSettings() {
+            document.getElementById('settings-overlay').classList.add('active');
+            const isLight = document.body.classList.contains('light-mode');
+            document.getElementById('themeToggle').checked = isLight;
+            updateThemeUI(isLight);
+        }
+        function closeSettings() {
+            document.getElementById('settings-overlay').classList.remove('active');
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
             const body = document.body;
-            const themeText = document.getElementById('themeText');
-            const icon = buttonElement.querySelector('i');
-            
             body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            updateThemeUI(isLight);
+        }
+
+        function updateThemeUI(isLight) {
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
             
-            if (body.classList.contains('light-mode')) {
-                themeText.innerText = 'Dark';
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
+            if (isLight) {
+                icon.className = 'fa-solid fa-sun';
+                label.innerText = 'Light Mode';
             } else {
-                themeText.innerText = 'Light';
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
+                icon.className = 'fa-solid fa-moon';
+                label.innerText = 'Dark Mode';
             }
         }
 
+        // Scroll Logic
         const rightContent = document.getElementById('rightScrollContent');
         const leftContent = document.getElementById('leftScrollContent');
         const stickyHeader = document.getElementById('stickyHeader');
