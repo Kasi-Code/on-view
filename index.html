@@ -12,7 +12,6 @@
             --bg-dark: #0a0a0a;
             --bg-silk: radial-gradient(circle at 50% 0%, #1f1f1f 0%, #0a0a0a 80%);
             --card-bg: linear-gradient(145deg, #181818, #111111);
-            /* DARK THEME: Light top-left to Dark bottom-right */
             --auth-card-bg: linear-gradient(135deg, #d4d4d4 0%, #4a4a4a 35%, #0a0a0a 70%, #050505 100%);
             --card-bg-solid: #181818;
             --border-color: #2a2a2a;
@@ -21,7 +20,6 @@
             --accent-line: #333;
             --btn-bg: #f5f5f5;
             --btn-text: #0a0a0a;
-            /* The Bouncy Curve for animations */
             --bounce-curve: cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
@@ -29,7 +27,6 @@
             --bg-dark: #f0f0f0;
             --bg-silk: radial-gradient(circle at 50% 0%, #ffffff 0%, #e0e0e0 80%);
             --card-bg: linear-gradient(145deg, #ffffff, #e6e6e6);
-            /* LIGHT THEME: Dark top-left to Light bottom-right (Inverted) */
             --auth-card-bg: linear-gradient(135deg, #4a4a4a 0%, #a0a0a0 35%, #e6e6e6 70%, #f5f5f5 100%);
             --card-bg-solid: #f0f0f0;
             --border-color: #cccccc;
@@ -102,7 +99,6 @@
         
         .left-static-bottom { flex-shrink: 0; }
 
-        /* The Section Title (Updated with Animation) */
         .section-title { 
             font-size: 16px; 
             font-weight: 700; 
@@ -113,7 +109,6 @@
             position: relative; 
         }
 
-        /* The Animated Horizon Line */
         .section-title::after {
             content: '';
             position: absolute;
@@ -149,8 +144,10 @@
         .right-column { height: 100%; padding: 0; position: relative; }
 
         .right-column-header { position: sticky; top: 0; background: transparent; z-index: 10; padding: 40px 40px 0 40px; transition: box-shadow 0.3s ease, background-color 0.4s ease; }
-        .right-column-header .section-title { margin-bottom: 0; padding-bottom: 20px; }
         .right-column-header.is-sticky { box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3); background-color: var(--card-bg-solid); }
+
+        /* The standard section title in the header */
+        .right-column-header .section-title { margin-bottom: 0; padding-bottom: 20px; }
 
         .right-scrollable-content { padding: 0 40px 40px 40px; overflow-y: auto; height: calc(100% - 80px); position: relative; }
         .right-scrollable-content::-webkit-scrollbar { width: 6px; }
@@ -180,12 +177,145 @@
         .projects-btn:hover { background-color: var(--text-main); color: var(--bg-dark); border-color: var(--text-main); transform: translateY(-2px); }
         .video-placeholder { width: 100%; height: 350px; background-color: var(--bg-dark); border-radius: 20px; display: flex; justify-content: center; align-items: center; color: var(--text-muted); font-size: 20px; border: 1px dashed var(--accent-line); margin-top: 20px; }
 
+        /* =========================================================
+           TOGGLE (FEED / DISCOVERY) - Only shows on Feed tab
+           ========================================================= */
+        .toggle-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--accent-line);
+        }
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .toggle-btn.active {
+            color: var(--text-main);
+        }
+        .toggle-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -22px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-main);
+        }
+
+        /* =========================================================
+           FEED POST STYLES
+           ========================================================= */
+        .feed-grid { display: flex; flex-direction: column; gap: 25px; margin-top: 25px; }
+        
+        .post-card { 
+            background-color: var(--border-color); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 20px; 
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .post-card:hover { border-color: #555; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+
+        .post-header { display: flex; align-items: center; gap: 15px; }
+        .post-avatar { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; border: 1px solid var(--border-color); flex-shrink: 0; }
+        .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .post-user-info { display: flex; flex-direction: column; }
+        .post-user-info strong { font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .post-user-info span { font-size: 12px; color: var(--text-muted); }
+
+        .post-content { font-size: 14px; line-height: 1.7; color: var(--text-main); }
+        
+        .post-media { width: 100%; height: 200px; border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); background-color: var(--bg-dark); display: flex; justify-content: center; align-items: center; color: var(--text-muted); }
+        .post-media img { width: 100%; height: 100%; object-fit: cover; }
+
+        .post-actions { display: flex; gap: 25px; padding-top: 15px; border-top: 1px solid var(--accent-line); }
+        .post-action-btn { background: none; border: none; color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: color 0.3s ease; }
+        .post-action-btn:hover { color: var(--text-main); }
+        .post-action-btn.liked { color: #ff4d6d; }
+
+        /* =========================================================
+           DISCOVERY GRID STYLES
+           ========================================================= */
+        .discovery-search-bar {
+            display: flex;
+            align-items: center;
+            background-color: var(--border-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            padding: 12px 20px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            gap: 12px;
+            color: var(--text-muted);
+            transition: border-color 0.3s ease;
+        }
+        .discovery-search-bar:focus-within { border-color: #666; }
+        .discovery-search-bar i { font-size: 16px; }
+        .discovery-search-bar input {
+            background: none;
+            border: none;
+            outline: none;
+            color: var(--text-main);
+            font-size: 14px;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .discovery-search-bar input::placeholder { color: var(--text-muted); }
+
+        .discovery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .discovery-tile {
+            aspect-ratio: 1 / 1;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-dark);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .discovery-tile:hover { border-color: #888; transform: scale(1.02); }
+        .discovery-tile img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; transition: opacity 0.3s ease; }
+        .discovery-tile:hover img { opacity: 1; }
+        
+        .discovery-tile .overlay-tag {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #fff;
+            background-color: rgba(0,0,0,0.6);
+            padding: 4px 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
+        }
+
         .back-to-top { position: absolute; bottom: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; background-color: var(--btn-bg); color: var(--btn-text); border: none; font-size: 16px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 20; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .back-to-top:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--card-bg-solid); border-top: 1px solid var(--border-color); display: flex; justify-content: center; padding: 15px 0; z-index: 100; transition: background 0.4s ease; }
-        .nav-items { display: flex; gap: 40px; align-items: center; }
+        .nav-items { display: flex; gap: 30px; align-items: center; }
         .nav-item { color: var(--text-muted); text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: color 0.3s ease; background: none; border: none; }
         .nav-item:hover, .nav-item.active { color: var(--text-main); }
 
@@ -196,7 +326,7 @@
         .overlay.active { opacity: 1; visibility: visible; }
 
         /* =========================================================
-           AUTH CARD (Login & Register - UNCHANGED)
+           AUTH CARD
            ========================================================= */
         .auth-card { 
             background: var(--auth-card-bg);
@@ -219,26 +349,10 @@
 
         @keyframes cardPop { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         
-        /* The Header (Holds Logo and Tagline) */
-        .login-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 30px; 
-            height: 100px; 
-        }
+        .login-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; height: 100px; }
         
-        /* =========================================================
-           THE LOGO STYLE & ANIMATION (RESTORED)
-           ========================================================= */
         .logo { display: flex; align-items: flex-start; line-height: 0.8; }
-
-        .logo .v, .logo .on-view span { 
-            color: #000; 
-            font-weight: 800; 
-            filter: drop-shadow(0px 0px 1px #ffffff); 
-        }
-
+        .logo .v, .logo .on-view span { color: #000; font-weight: 800; filter: drop-shadow(0px 0px 1px #ffffff); }
         .logo .v { font-size: 92px; letter-spacing: -2px; }
         .logo .on-view { display: flex; flex-direction: column; font-weight: 800; margin-top: 6px; margin-left: -2px; }
         .logo .on-text { font-size: 38px; margin-left: 4px; margin-top: -2px; }
@@ -257,149 +371,31 @@
             100% { opacity: 1; transform: translateY(0)     scaleY(1); }
         }
 
-        /* =========================================================
-           THE TAGLINE & LINE ANIMATION
-           ========================================================= */
-        .tagline { 
-            display: flex;
-            flex-direction: row;
-            align-items: center; 
-            height: 100%; 
-            font-size: 12px; 
-            font-weight: 600; 
-            padding-left: 30px; 
-            line-height: 1.4; 
-            text-align: left; 
-        }
-
-        .tagline .line {
-            width: 1px;
-            background-color: #555;
-            margin-right: 15px;
-            opacity: 0;  
-            animation: growLine 0.6s var(--bounce-curve) forwards;
-            animation-delay: 1.5s; 
-        }
-
-        .tagline .tagline-text {
-            opacity: 0;
-            animation: fadeInText 0.8s ease forwards;
-            animation-delay: 2.1s; 
-        }
-
-        @keyframes growLine {
-            0% { height: 0px; opacity: 0; }
-            50% { height: 60px; opacity: 1; } 
-            100% { height: 50px; opacity: 1; } 
-        }
-
-        @keyframes fadeInText {
-            0% { opacity: 0; transform: translateX(-10px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
+        .tagline { display: flex; flex-direction: row; align-items: center; height: 100%; font-size: 12px; font-weight: 600; padding-left: 30px; line-height: 1.4; text-align: left; }
+        .tagline .line { width: 1px; background-color: #555; margin-right: 15px; opacity: 0; animation: growLine 0.6s var(--bounce-curve) forwards; animation-delay: 1.5s; }
+        .tagline .tagline-text { opacity: 0; animation: fadeInText 0.8s ease forwards; animation-delay: 2.1s; }
+        @keyframes growLine { 0% { height: 0px; opacity: 0; } 50% { height: 60px; opacity: 1; } 100% { height: 50px; opacity: 1; } }
+        @keyframes fadeInText { 0% { opacity: 0; transform: translateX(-10px); } 100% { opacity: 1; transform: translateX(0); } }
 
         /* =========================================================
-           SETTINGS CARD (NEW - Separate styling to not break auth card)
+           SETTINGS CARD
            ========================================================= */
-        .settings-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            padding: 40px 35px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            position: relative;
-            animation: cardPop 0.3s ease-out;
-            color: var(--text-main);
-        }
-
-        .settings-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--accent-line);
-        }
-        
-        .settings-header h2 {
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .settings-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
+        .settings-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; padding: 40px 35px; width: 100%; max-width: 420px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); position: relative; animation: cardPop 0.3s ease-out; color: var(--text-main); }
+        .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--accent-line); }
+        .settings-header h2 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .settings-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.3s ease; }
         .settings-close:hover { color: var(--text-main); }
-
-        .setting-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 0;
-            border-bottom: 1px solid var(--accent-line);
-        }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--accent-line); }
         .setting-row:last-child { border-bottom: none; }
+        .setting-label { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+        .setting-label i { font-size: 16px; color: var(--text-muted); width: 20px; text-align: center; }
 
-        .setting-label {
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .setting-label i {
-            font-size: 16px;
-            color: var(--text-muted);
-            width: 20px;
-            text-align: center;
-        }
-
-        /* The Toggle Switch Style */
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 26px;
-        }
+        .toggle-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #333;
-            border: 1px solid var(--border-color);
-            transition: .4s;
-            border-radius: 34px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: #fff;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #f5f5f5;
-            border-color: #f5f5f5;
-        }
-        input:checked + .slider:before {
-            transform: translateX(24px);
-            background-color: #0a0a0a;
-        }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; border: 1px solid var(--border-color); transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: #fff; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #f5f5f5; border-color: #f5f5f5; }
+        input:checked + .slider:before { transform: translateX(24px); background-color: #0a0a0a; }
         body.light-mode .slider { background-color: #ccc; border-color: #bbb; }
         body.light-mode input:checked + .slider { background-color: #1a1a1a; border-color: #1a1a1a; }
         body.light-mode input:checked + .slider:before { background-color: #ffffff; }
@@ -412,33 +408,26 @@
         .input-wrapper i.prefix { position: absolute; left: 20px; color: var(--text-muted); font-size: 16px; }
         .input-wrapper i.suffix { position: absolute; right: 20px; color: var(--text-muted); font-size: 16px; cursor: pointer; transition: color 0.3s ease; }
         .input-wrapper i.suffix:hover { color: var(--text-main); }
-        
         .form-control { width: 100%; background-color: #050505; border: 1px solid #333; border-radius: 50px; padding: 16px 20px 16px 50px; color: #f5f5f5; font-size: 14px; outline: none; transition: all 0.3s ease; }
         body.light-mode .form-control { background-color: #fff; border: 1px solid #ccc; color: #1a1a1a; }
-
         .form-control[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.5); cursor: pointer; }
         body.light-mode .form-control[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0); }
         .form-control::placeholder { color: #888; }
         .form-control:focus { border-color: #888; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
-        
         .form-options { display: flex; justify-content: space-between; align-items: center; margin: 20px 5px; font-size: 12px; font-weight: 600; }
         .remember-me { display: flex; align-items: center; gap: 8px; cursor: pointer; }
         .remember-me input[type="checkbox"] { appearance: none; width: 16px; height: 16px; border: 2px solid #555; border-radius: 3px; cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; }
         .remember-me input[type="checkbox"]:checked { background-color: #111; border-color: #111; }
         .remember-me input[type="checkbox"]:checked::after { content: '\f00c'; font-family: 'FontAwesome'; color: #fff; font-size: 10px; }
-        
         .forgot-password { color: var(--text-main); text-decoration: none; transition: color 0.3s ease; }
         .forgot-password:hover { color: var(--text-muted); }
-        
         .btn-submit { width: 100%; background-color: #f5f5f5; color: #0a0a0a; border: none; border-radius: 50px; padding: 18px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; margin-top: 10px; }
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4); opacity: 0.9; background-color: #fff; }
-        
         .divider { display: flex; align-items: center; text-align: center; margin: 30px 0 20px 0; font-size: 11px; font-weight: 600; }
         .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background-color: #444; transform: scaleX(0); animation: spreadLine 0.8s var(--bounce-curve) forwards; }
         .divider::before { transform-origin: right center; margin-right: 15px; animation-delay: 0.6s; }
         .divider::after { transform-origin: left center; margin-left: 15px; animation-delay: 0.6s; }
         .divider span { padding: 0 15px; }
-
         .login-footer { text-align: center; font-size: 13px; font-weight: 600; }
         .login-footer a { text-decoration: underline; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; margin-left: 5px; transition: opacity 0.3s ease; cursor: pointer; }
         .login-footer a:hover { opacity: 0.7; }
@@ -463,6 +452,8 @@
             .project-card { grid-template-columns: 1fr; gap: 15px; text-align: center; padding: 15px; }
             .project-image { height: 180px; }
             .project-tags { justify-content: center; }
+            .discovery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .post-media { height: 180px; }
         }
     </style>
 </head>
@@ -484,8 +475,6 @@
                 <ul class="detail-list">
                     <li><strong>Optics</strong><span>Eye Hospital: Senior technician</span><span>Opticians: Optical + Dispensing assistant</span></li>
                     <li><strong>Music Technology</strong><span>Write, Compose and Produce music</span></li>
-                    <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
-                    <li style="opacity: 0.5;"><strong>More Experience</strong><span>Dummy text to demonstrate scroll</span></li>
                 </ul>
             </div>
 
@@ -506,16 +495,92 @@
         <div class="right-column panel" id="rightCard">
             
             <div class="right-column-header" id="stickyHeader">
+                <!-- Standard title for Profile, Skills, Hobby, Projects -->
                 <h2 class="section-title" id="dynamicTitle" style="text-align: center;">About Me</h2>
+                
+                <!-- Toggle for Feed & Discovery -->
+                <div class="toggle-header" id="toggleHeader" style="display: none;">
+                    <button class="toggle-btn active" id="toggleFeed" onclick="showFeedView()">Feed</button>
+                    <button class="toggle-btn" id="toggleDiscovery" onclick="showDiscoveryView()">Discovery</button>
+                </div>
             </div>
 
             <div class="right-scrollable-content" id="rightScrollContent">
-                <div id="profile" class="tab-content active">
+                
+                <!-- TAB: FEED & DISCOVERY -->
+                <div id="feed-discovery" class="tab-content active">
+                    
+                    <!-- Feed View -->
+                    <div id="feed-view">
+                        <div class="feed-grid">
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="post-avatar"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User"></div>
+                                    <div class="post-user-info"><strong>Alex Rivera</strong><span>2 hours ago</span></div>
+                                </div>
+                                <p class="post-content">Just finished my first full-stack project! Building a social feed was easier than I thought. The CSS gradients are everything. 🚀</p>
+                                <div class="post-media"><i class="fa-regular fa-image" style="font-size: 40px;"></i></div>
+                                <div class="post-actions">
+                                    <button class="post-action-btn" onclick="toggleLike(this)"><i class="fa-regular fa-heart"></i> Like</button>
+                                    <button class="post-action-btn"><i class="fa-regular fa-comment"></i> Comment</button>
+                                    <button class="post-action-btn"><i class="fa-solid fa-share-nodes"></i> Share</button>
+                                </div>
+                            </div>
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="post-avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User"></div>
+                                    <div class="post-user-info"><strong>Marcus Chen</strong><span>5 hours ago</span></div>
+                                </div>
+                                <p class="post-content">Does anyone have tips for optimizing CSS animations? My logo slide-in still feels a bit jittery on mobile.</p>
+                                <div class="post-actions">
+                                    <button class="post-action-btn" onclick="toggleLike(this)"><i class="fa-regular fa-heart"></i> Like</button>
+                                    <button class="post-action-btn"><i class="fa-regular fa-comment"></i> Comment</button>
+                                    <button class="post-action-btn"><i class="fa-solid fa-share-nodes"></i> Share</button>
+                                </div>
+                            </div>
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="post-avatar"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="User"></div>
+                                    <div class="post-user-info"><strong>Priya Sharma</strong><span>Yesterday</span></div>
+                                </div>
+                                <p class="post-content">Just discovered the `filter: drop-shadow()` trick for crisp text outlines. Works perfectly for logos on both dark and light backgrounds. 💡</p>
+                                <div class="post-actions">
+                                    <button class="post-action-btn" onclick="toggleLike(this)"><i class="fa-regular fa-heart"></i> Like</button>
+                                    <button class="post-action-btn"><i class="fa-regular fa-comment"></i> Comment</button>
+                                    <button class="post-action-btn"><i class="fa-solid fa-share-nodes"></i> Share</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discovery View -->
+                    <div id="discovery-view" class="hidden">
+                        <div class="discovery-search-bar">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Search for people, projects, skills...">
+                        </div>
+                        <div class="discovery-grid">
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Design"><span class="overlay-tag">UI/UX</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Code"><span class="overlay-tag">Dev</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Web"><span class="overlay-tag">Web</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Tech"><span class="overlay-tag">Tech</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Laptop"><span class="overlay-tag">Work</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Data"><span class="overlay-tag">Data</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Art"><span class="overlay-tag">Art</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Office"><span class="overlay-tag">Life</span></div>
+                            <div class="discovery-tile"><img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Code2"><span class="overlay-tag">JS</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: PROFILE -->
+                <div id="profile" class="tab-content">
                     <p class="bio-text">Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...</p>
                     <p class="bio-text">Moving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.</p>
                     <p class="bio-text">I am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.</p>
                 </div>
 
+                <!-- TAB: SKILLS -->
                 <div id="skills" class="tab-content">
                     <h3 style="font-size: 14px; margin-bottom: 15px; color: var(--text-main);">Front-End Development</h3>
                     <ul class="skills-list">
@@ -538,6 +603,7 @@
                     </button>
                 </div>
 
+                <!-- TAB: PROJECTS -->
                 <div id="projects" class="tab-content">
                     <div class="projects-grid">
                         <div class="project-card">
@@ -563,6 +629,7 @@
                     </div>
                 </div>
 
+                <!-- TAB: HOBBY -->
                 <div id="hobby" class="tab-content">
                     <p class="bio-text" style="text-align: center;">- This video was captured at 4k 30fps and edited using a mobile device.</p>
                     <div class="video-placeholder"><i class="fa-solid fa-play" style="margin-right: 10px;"></i> Video Player Placeholder</div>
@@ -578,7 +645,7 @@
     </div>
 
     <!-- =========================================================
-         LOGIN OVERLAY (UNCHANGED)
+         LOGIN OVERLAY
          ========================================================= -->
     <div id="login-overlay" class="overlay active">
         <div class="auth-card" id="login-card">
@@ -589,7 +656,7 @@
                     <span class="tagline-text">See more.<br>Do more.</span>
                 </div>
             </div>
-            <form onsubmit="event.preventDefault(); closeLogin();">
+            <form onsubmit="event.preventDefault(); login();">
                 <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-user prefix"></i><input type="text" class="form-control" placeholder="Username" required></div></div>
                 <div class="form-group"><div class="input-wrapper"><i class="fa-solid fa-lock prefix"></i><input type="password" class="form-control" placeholder="Password" required><i class="fa-regular fa-eye suffix"></i></div></div>
                 <div class="form-options"><label class="remember-me"><input type="checkbox" checked> Remember me</label><a href="#" class="forgot-password">Forgot password?</a></div>
@@ -598,7 +665,7 @@
             <div class="divider"><span>New here?</span></div>
             <div class="login-footer">
                 Create an account: <a onclick="showRegister()">Sign Up <i class="fa-solid fa-arrow-right"></i></a>
-                <a onclick="closeLogin()" style="display: block; margin-top: 20px; text-decoration: none; color: var(--text-muted);">Skip</a>
+                <a onclick="skipLogin()" style="display: block; margin-top: 20px; text-decoration: none; color: var(--text-muted);">Skip</a>
             </div>
         </div>
 
@@ -613,7 +680,7 @@
                     <span class="tagline-text">See more.<br>Do more.</span>
                 </div>
             </div>
-            <form onsubmit="event.preventDefault(); closeLogin();">
+            <form onsubmit="event.preventDefault(); login();">
                 <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-envelope prefix"></i><input type="email" class="form-control" placeholder="Email" required></div></div>
                 <div class="form-group"><div class="input-wrapper"><i class="fa-regular fa-user prefix"></i><input type="text" class="form-control" placeholder="Username" required></div></div>
                 <div class="form-group"><div class="input-wrapper"><i class="fa-solid fa-lock prefix"></i><input type="password" class="form-control" placeholder="Password" required></div></div>
@@ -623,13 +690,13 @@
             <div class="divider"><span>Already a member?</span></div>
             <div class="login-footer">
                 <a onclick="showLogin()">Login <i class="fa-solid fa-arrow-right"></i></a>
-                <a onclick="closeLogin()" style="display: block; margin-top: 20px; text-decoration: none; color: var(--text-muted);">Skip</a>
+                <a onclick="skipLogin()" style="display: block; margin-top: 20px; text-decoration: none; color: var(--text-muted);">Skip</a>
             </div>
         </div>
     </div>
 
     <!-- =========================================================
-         SETTINGS OVERLAY (NEW)
+         SETTINGS OVERLAY
          ========================================================= -->
     <div id="settings-overlay" class="overlay">
         <div class="settings-card">
@@ -637,8 +704,6 @@
                 <h2>Settings</h2>
                 <button class="settings-close" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-            <!-- Setting 1: Theme Toggle -->
             <div class="setting-row">
                 <div class="setting-label">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -655,21 +720,46 @@
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
         <div class="nav-items">
-            <button class="nav-item" onclick="openLogin()">oV</button>
-            <button class="nav-item active" data-tab="profile" onclick="switchTab('profile', this, 'About Me')"><i class="fa-regular fa-user"></i> Profile</button>
+            <button class="nav-item active" data-tab="feed-discovery" onclick="handleOV()"><i class="fa-regular fa-compass"></i> oV</button>
+            <button class="nav-item" data-tab="profile" onclick="switchTab('profile', this, 'About Me')"><i class="fa-regular fa-user"></i> Profile</button>
             <button class="nav-item" data-tab="skills" onclick="switchTab('skills', this, 'Skills')"><i class="fa-solid fa-code"></i> Skills</button>
             <button class="nav-item" data-tab="projects" onclick="switchTab('projects', this, 'Projects')" style="display: none;"></button> 
             <button class="nav-item" data-tab="hobby" onclick="switchTab('hobby', this, 'Hobby')"><i class="fa-regular fa-image"></i> Hobby</button>
-            
-            <!-- Settings Button -->
-            <button class="nav-item" onclick="openSettings()">
-                <i class="fa-solid fa-gear"></i> Settings
-            </button>
+            <button class="nav-item" onclick="openSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
         </div>
     </nav>
 
     <script>
-        // Tab Switching
+        // =========================================================
+        // LOGIN STATE
+        // =========================================================
+        let isLoggedIn = false;
+
+        function login() {
+            isLoggedIn = true;
+            closeLogin();
+            switchTab('feed-discovery', document.querySelector('.nav-item[data-tab="feed-discovery"]'), '');
+            showFeedView();
+        }
+
+        function skipLogin() {
+            isLoggedIn = false;
+            closeLogin();
+            switchTab('feed-discovery', document.querySelector('.nav-item[data-tab="feed-discovery"]'), '');
+            showFeedView();
+        }
+
+        function handleOV() {
+            if (isLoggedIn) {
+                switchTab('feed-discovery', document.querySelector('.nav-item[data-tab="feed-discovery"]'), '');
+            } else {
+                openLogin();
+            }
+        }
+
+        // =========================================================
+        // TAB SWITCHING (Smart Header Logic)
+        // =========================================================
         function switchTab(tabId, buttonElement, titleText) {
             const allTabs = document.querySelectorAll('.tab-content');
             allTabs.forEach(tab => { tab.classList.remove('active'); });
@@ -679,11 +769,19 @@
 
             document.getElementById(tabId).classList.add('active');
             
-            if (titleText) {
-                document.getElementById('dynamicTitle').innerText = titleText;
+            const dynamicTitle = document.getElementById('dynamicTitle');
+            const toggleHeader = document.getElementById('toggleHeader');
+
+            // If it's feed-discovery, show toggle and hide title. Otherwise, do the opposite.
+            if (tabId === 'feed-discovery') {
+                dynamicTitle.style.display = 'none';
+                toggleHeader.style.display = 'flex';
             } else {
+                dynamicTitle.style.display = 'block';
+                toggleHeader.style.display = 'none';
+                
                 const titles = { 'profile': 'About Me', 'skills': 'Skills', 'projects': 'Projects', 'hobby': 'Hobby' };
-                document.getElementById('dynamicTitle').innerText = titles[tabId] || 'On View';
+                dynamicTitle.innerText = titles[tabId] || 'On View';
             }
 
             if (buttonElement) {
@@ -698,13 +796,34 @@
             }
         }
 
-        // Login & Register Controls
+        // =========================================================
+        // FEED / DISCOVERY TOGGLE
+        // =========================================================
+        function showFeedView() {
+            document.getElementById('feed-view').classList.remove('hidden');
+            document.getElementById('discovery-view').classList.add('hidden');
+            document.getElementById('toggleFeed').classList.add('active');
+            document.getElementById('toggleDiscovery').classList.remove('active');
+        }
+
+        function showDiscoveryView() {
+            document.getElementById('feed-view').classList.add('hidden');
+            document.getElementById('discovery-view').classList.remove('hidden');
+            document.getElementById('toggleFeed').classList.remove('active');
+            document.getElementById('toggleDiscovery').classList.add('active');
+        }
+
+        // =========================================================
+        // LOGIN & REGISTER CONTROLS
+        // =========================================================
         function openLogin() { showLogin(); document.getElementById('login-overlay').classList.add('active'); }
         function closeLogin() { document.getElementById('login-overlay').classList.remove('active'); }
         function showRegister() { document.getElementById('login-card').classList.add('hidden'); document.getElementById('register-card').classList.remove('hidden'); }
         function showLogin() { document.getElementById('register-card').classList.add('hidden'); document.getElementById('login-card').classList.remove('hidden'); }
 
-        // Settings Controls
+        // =========================================================
+        // SETTINGS CONTROLS
+        // =========================================================
         function openSettings() {
             document.getElementById('settings-overlay').classList.add('active');
             const isLight = document.body.classList.contains('light-mode');
@@ -715,7 +834,9 @@
             document.getElementById('settings-overlay').classList.remove('active');
         }
 
-        // Theme Toggle
+        // =========================================================
+        // THEME TOGGLE
+        // =========================================================
         function toggleTheme() {
             const body = document.body;
             body.classList.toggle('light-mode');
@@ -736,7 +857,31 @@
             }
         }
 
-        // Scroll Logic
+        // =========================================================
+        // POST LIKE TOGGLE
+        // =========================================================
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            const icon = btn.querySelector('i');
+            if (btn.classList.contains('liked')) {
+                icon.className = 'fa-solid fa-heart';
+                btn.innerHTML = '<i class="fa-solid fa-heart"></i> Liked';
+            } else {
+                icon.className = 'fa-regular fa-heart';
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i> Like';
+            }
+        }
+
+        // =========================================================
+        // INITIAL LOAD & SCROLL LOGIC
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show toggle, hide title on initial load (feed-discovery is active)
+            document.getElementById('dynamicTitle').style.display = 'none';
+            document.getElementById('toggleHeader').style.display = 'flex';
+            showFeedView();
+        });
+
         const rightContent = document.getElementById('rightScrollContent');
         const leftContent = document.getElementById('leftScrollContent');
         const stickyHeader = document.getElementById('stickyHeader');
