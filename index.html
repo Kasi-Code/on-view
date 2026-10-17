@@ -23,7 +23,7 @@
             --danger-color: #ff4d6d;
             --bounce-curve: cubic-bezier(0.68, -0.55, 0.27, 1.55);
             
-            /* Mathematically calculated height for exactly 5 icons (40px each + 12px gaps) */
+            /* Mathematical height for 5 icons (40px each + 12px gaps) */
             --icon-stack-height: 248px; 
         }
 
@@ -93,12 +93,13 @@
             display: flex; 
             gap: 15px; 
             margin-bottom: 20px;
-            /* Lock the height of the entire top section */
+            /* Lock the height of the entire top section to match the icon stack */
             height: var(--icon-stack-height); 
         }
         
         .profile-image-wrapper { 
-            flex-grow: 1; 
+            /* Force a 1:1 square aspect ratio */
+            aspect-ratio: 1 / 1; 
             height: 100%; 
             border-radius: 20px; 
             overflow: hidden; 
@@ -426,7 +427,7 @@
         .hidden { display: none !important; }
 
         /* =========================================================
-           RESPONSIVE MOBILE (Applying same logic horizontally)
+           RESPONSIVE MOBILE
            ========================================================= */
         @media (max-width: 900px) {
             body { 
@@ -464,12 +465,12 @@
             .profile-image-wrapper { 
                 margin: 0; 
                 width: 100%; 
-                max-width: 100%; 
-                /* Lock the height to the exact same fixed size as desktop */
-                height: var(--icon-stack-height); 
+                /* Keep it a square on mobile too */
+                height: auto; 
+                aspect-ratio: 1 / 1; 
             }
 
-            /* Change vertical icon stack to horizontal row */
+            /* Change icon stack to a row on mobile */
             .social-links { 
                 flex-direction: row; 
                 flex-wrap: nowrap; 
