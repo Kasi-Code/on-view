@@ -334,26 +334,67 @@
         .login-footer a:hover { opacity: 0.7; }
         .hidden { display: none !important; }
 
-        /* =========================================================
+                /* =========================================================
            RESPONSIVE MOBILE
            ========================================================= */
         @media (max-width: 900px) {
-            body { overflow-y: auto; height: auto; padding: 20px 15px 90px 15px; } 
-            .app-container { display: flex; flex-direction: column; gap: 20px; height: auto; }
-            .panel { padding: 20px; border-radius: 20px; }
+            body { 
+                overflow-y: auto; 
+                height: auto; 
+                /* Keep a tiny gap so the card doesn't touch the literal phone bezel */
+                padding: 20px 8px 90px 8px; 
+            } 
+            
+            .app-container { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 20px; 
+                height: auto; 
+                /* No padding here so the panel stretches */
+                padding: 0; 
+            }
+            
+            /* Restore the On View Card Look (Curves, Border, Shadow) */
+            .panel { 
+                padding: 20px; 
+                border-radius: 30px; 
+                border: 1px solid var(--border-color);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                width: 100%;
+            }
+            
             .left-column { height: auto; overflow-y: visible; flex-shrink: 0; }
             .left-scrollable-middle { flex-grow: 0; overflow-y: visible; padding-right: 0; margin-bottom: 0; }
             .left-column .back-to-top { display: none !important; }
             .profile-image-wrapper { margin: 0 auto 15px auto; max-width: 100%; }
+            
+            /* Right column adjustments */
             .right-column { padding: 0; height: calc(100vh - 100px); min-height: 500px; overflow: hidden; } 
             .right-column-header { padding: 20px 20px 0 20px; } 
-            .right-scrollable-content { padding: 0 20px 20px 20px; height: calc(100% - 65px); }
+            .right-scrollable-content { 
+                /* This controls the left/right spacing of the content inside the card */
+                padding: 0 15px 20px 15px; 
+                height: calc(100% - 65px); 
+            }
+            
+            /* Ensure Feed Posts have internal padding so text doesn't touch the walls */
+            .post-card {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
             .nav-items { gap: 15px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
             .video-placeholder { height: 220px; }
             .project-card { grid-template-columns: 1fr; gap: 15px; text-align: center; padding: 15px; }
             .project-image { height: 180px; }
             .project-tags { justify-content: center; }
-            .discovery-grid, .media-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            
+            /* Grids: 2 columns, no weird margin pulling */
+            .discovery-grid, .media-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px; 
+                margin: 0; 
+            }
             .post-media { height: 180px; }
         }
     </style>
