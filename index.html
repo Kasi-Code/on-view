@@ -206,19 +206,22 @@
         .post-action-btn.liked { color: var(--danger-color); }
 
         /* =========================================================
-           DISCOVERY GRID STYLES
+           DISCOVERY & MEDIA GRID STYLES
            ========================================================= */
         .discovery-search-bar { display: flex; align-items: center; background-color: var(--border-color); border: 1px solid var(--border-color); border-radius: 50px; padding: 12px 20px; margin-top: 25px; margin-bottom: 25px; gap: 12px; color: var(--text-muted); transition: border-color 0.3s ease; }
         .discovery-search-bar:focus-within { border-color: #666; }
         .discovery-search-bar i { font-size: 16px; }
         .discovery-search-bar input { background: none; border: none; outline: none; color: var(--text-main); font-size: 14px; width: 100%; font-family: 'Montserrat', sans-serif; }
         .discovery-search-bar input::placeholder { color: var(--text-muted); }
-        .discovery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .discovery-tile { aspect-ratio: 1 / 1; border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); background-color: var(--bg-dark); position: relative; cursor: pointer; transition: all 0.3s ease; }
-        .discovery-tile:hover { border-color: #888; transform: scale(1.02); }
-        .discovery-tile img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; transition: opacity 0.3s ease; }
-        .discovery-tile:hover img { opacity: 1; }
-        .discovery-tile .overlay-tag { position: absolute; bottom: 8px; left: 8px; font-size: 10px; font-weight: 700; color: #fff; background-color: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 10px; backdrop-filter: blur(4px); }
+        
+        .discovery-grid, .media-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; }
+        
+        .discovery-tile, .media-tile { aspect-ratio: 1 / 1; border-radius: 15px; overflow: hidden; border: 1px solid var(--border-color); background-color: var(--bg-dark); position: relative; cursor: pointer; transition: all 0.3s ease; }
+        .discovery-tile:hover, .media-tile:hover { border-color: #888; transform: scale(1.02); }
+        .discovery-tile img, .media-tile img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; transition: opacity 0.3s ease; }
+        .discovery-tile:hover img, .media-tile:hover img { opacity: 1; }
+        
+        .discovery-tile .overlay-tag, .media-tile .overlay-tag { position: absolute; bottom: 8px; left: 8px; font-size: 10px; font-weight: 700; color: #fff; background-color: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 10px; backdrop-filter: blur(4px); }
 
         .back-to-top { position: absolute; bottom: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; background-color: var(--btn-bg); color: var(--btn-text); border: none; font-size: 16px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 20; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
@@ -269,7 +272,7 @@
         @keyframes fadeInText { 0% { opacity: 0; transform: translateX(-10px); } 100% { opacity: 1; transform: translateX(0); } }
 
         /* =========================================================
-           SETTINGS CARD (With New Options)
+           SETTINGS CARD
            ========================================================= */
         .settings-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 30px; padding: 40px 35px; width: 100%; max-width: 420px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); position: relative; animation: cardPop 0.3s ease-out; color: var(--text-main); }
         .settings-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--accent-line); }
@@ -277,37 +280,16 @@
         .settings-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; transition: color 0.3s ease; }
         .settings-close:hover { color: var(--text-main); }
         
-        /* Standard Setting Row */
         .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--accent-line); }
         .setting-label { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 12px; }
         .setting-label i { font-size: 16px; color: var(--text-muted); width: 20px; text-align: center; }
 
-        /* Action Row (For Log Out, Delete, Help) */
-        .action-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 15px 0;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--text-main);
-            transition: opacity 0.3s ease;
-        }
+        .action-row { display: flex; align-items: center; gap: 12px; padding: 15px 0; font-size: 14px; font-weight: 600; cursor: pointer; color: var(--text-main); transition: opacity 0.3s ease; }
         .action-row:hover { opacity: 0.7; }
         .action-row i { font-size: 16px; width: 20px; text-align: center; }
         .action-row.danger { color: var(--danger-color); }
 
-        /* Sub-header for "Others" */
-        .settings-sub-header {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-top: 25px;
-            margin-bottom: 10px;
-        }
+        .settings-sub-header { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-top: 25px; margin-bottom: 10px; }
 
         .toggle-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
         .toggle-switch input { opacity: 0; width: 0; height: 0; }
@@ -371,7 +353,7 @@
             .project-card { grid-template-columns: 1fr; gap: 15px; text-align: center; padding: 15px; }
             .project-image { height: 180px; }
             .project-tags { justify-content: center; }
-            .discovery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .discovery-grid, .media-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .post-media { height: 180px; }
         }
     </style>
@@ -544,12 +526,19 @@
                     </div>
                 </div>
 
-                <!-- TAB: HOBBY -->
-                <div id="hobby" class="tab-content">
-                    <p class="bio-text" style="text-align: center;">- This video was captured at 4k 30fps and edited using a mobile device.</p>
-                    <div class="video-placeholder"><i class="fa-solid fa-play" style="margin-right: 10px;"></i> Video Player Placeholder</div>
-                    <h3 style="margin-top: 30px; text-align: center; color: var(--text-main);">Interests</h3>
-                    <p class="bio-text" style="text-align: center;">- I enjoy being outdoors...</p>
+                <!-- TAB: MEDIA (Formerly Hobby) -->
+                <div id="media" class="tab-content">
+                    <div class="media-grid">
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nature"><span class="overlay-tag">Nature</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Forest"><span class="overlay-tag">Forest</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Mountains"><span class="overlay-tag">Travel</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Lake"><span class="overlay-tag">Lake</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Snow"><span class="overlay-tag">Snow</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1506744626753-1fa44df31c28?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Sunset"><span class="overlay-tag">Sunset</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Forest2"><span class="overlay-tag">Hike</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Field"><span class="overlay-tag">Field</span></div>
+                        <div class="media-tile"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Beach"><span class="overlay-tag">Beach</span></div>
+                    </div>
                 </div>
             </div>
 
@@ -611,7 +600,7 @@
     </div>
 
     <!-- =========================================================
-         SETTINGS OVERLAY (NEW OPTIONS ADDED)
+         SETTINGS OVERLAY
          ========================================================= -->
     <div id="settings-overlay" class="overlay">
         <div class="settings-card">
@@ -619,8 +608,6 @@
                 <h2>Settings</h2>
                 <button class="settings-close" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-            <!-- Theme Toggle -->
             <div class="setting-row">
                 <div class="setting-label">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -631,25 +618,10 @@
                     <span class="slider"></span>
                 </label>
             </div>
-
-            <!-- Others Section -->
             <div class="settings-sub-header">Others</div>
-
-            <div class="action-row" onclick="logout()">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Log Out</span>
-            </div>
-
-            <div class="action-row danger" onclick="deleteAccount()">
-                <i class="fa-solid fa-trash-can"></i>
-                <span>Delete Account</span>
-            </div>
-
-            <div class="action-row" onclick="helpSupport()">
-                <i class="fa-solid fa-circle-question"></i>
-                <span>Help & Support</span>
-            </div>
-
+            <div class="action-row" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i><span>Log Out</span></div>
+            <div class="action-row danger" onclick="deleteAccount()"><i class="fa-solid fa-trash-can"></i><span>Delete Account</span></div>
+            <div class="action-row" onclick="helpSupport()"><i class="fa-solid fa-circle-question"></i><span>Help & Support</span></div>
         </div>
     </div>
 
@@ -660,15 +632,12 @@
             <button class="nav-item" data-tab="profile" onclick="switchTab('profile', this, 'About Me')"><i class="fa-regular fa-user"></i> Profile</button>
             <button class="nav-item" data-tab="skills" onclick="switchTab('skills', this, 'Skills')"><i class="fa-solid fa-code"></i> Skills</button>
             <button class="nav-item" data-tab="projects" onclick="switchTab('projects', this, 'Projects')" style="display: none;"></button> 
-            <button class="nav-item" data-tab="hobby" onclick="switchTab('hobby', this, 'Hobby')"><i class="fa-regular fa-image"></i> Hobby</button>
+            <button class="nav-item" data-tab="media" onclick="switchTab('media', this, 'Media')"><i class="fa-regular fa-image"></i> Media</button>
             <button class="nav-item" onclick="openSettings()"><i class="fa-solid fa-gear"></i> Settings</button>
         </div>
     </nav>
 
     <script>
-        // =========================================================
-        // LOGIN STATE
-        // =========================================================
         let isLoggedIn = false;
 
         function login() {
@@ -693,9 +662,6 @@
             }
         }
 
-        // =========================================================
-        // TAB SWITCHING
-        // =========================================================
         function switchTab(tabId, buttonElement, titleText) {
             const allTabs = document.querySelectorAll('.tab-content');
             allTabs.forEach(tab => { tab.classList.remove('active'); });
@@ -715,7 +681,7 @@
                 dynamicTitle.style.display = 'block';
                 toggleHeader.style.display = 'none';
                 
-                const titles = { 'profile': 'About Me', 'skills': 'Skills', 'projects': 'Projects', 'hobby': 'Hobby' };
+                const titles = { 'profile': 'About Me', 'skills': 'Skills', 'projects': 'Projects', 'media': 'Media' };
                 dynamicTitle.innerText = titles[tabId] || 'On View';
             }
 
@@ -731,9 +697,6 @@
             }
         }
 
-        // =========================================================
-        // FEED / DISCOVERY TOGGLE
-        // =========================================================
         function showFeedView() {
             document.getElementById('feed-view').classList.remove('hidden');
             document.getElementById('discovery-view').classList.add('hidden');
@@ -748,17 +711,11 @@
             document.getElementById('toggleDiscovery').classList.add('active');
         }
 
-        // =========================================================
-        // LOGIN & REGISTER CONTROLS
-        // =========================================================
         function openLogin() { showLogin(); document.getElementById('login-overlay').classList.add('active'); }
         function closeLogin() { document.getElementById('login-overlay').classList.remove('active'); }
         function showRegister() { document.getElementById('login-card').classList.add('hidden'); document.getElementById('register-card').classList.remove('hidden'); }
         function showLogin() { document.getElementById('register-card').classList.add('hidden'); document.getElementById('login-card').classList.remove('hidden'); }
 
-        // =========================================================
-        // SETTINGS CONTROLS
-        // =========================================================
         function openSettings() {
             document.getElementById('settings-overlay').classList.add('active');
             const isLight = document.body.classList.contains('light-mode');
@@ -769,9 +726,6 @@
             document.getElementById('settings-overlay').classList.remove('active');
         }
 
-        // =========================================================
-        // THEME TOGGLE
-        // =========================================================
         function toggleTheme() {
             const body = document.body;
             body.classList.toggle('light-mode');
@@ -792,9 +746,6 @@
             }
         }
 
-        // =========================================================
-        // SETTINGS ACTIONS
-        // =========================================================
         function logout() {
             closeSettings();
             isLoggedIn = false;
@@ -814,9 +765,6 @@
             alert("Help & Support: For any issues, please contact support@onview.com");
         }
 
-        // =========================================================
-        // POST LIKE TOGGLE
-        // =========================================================
         function toggleLike(btn) {
             btn.classList.toggle('liked');
             const icon = btn.querySelector('i');
@@ -829,9 +777,6 @@
             }
         }
 
-        // =========================================================
-        // INITIAL LOAD
-        // =========================================================
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('dynamicTitle').style.display = 'none';
             document.getElementById('toggleHeader').style.display = 'flex';
