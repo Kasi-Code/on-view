@@ -22,6 +22,9 @@
             --btn-text: #0a0a0a;
             --danger-color: #ff4d6d;
             --bounce-curve: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            
+            /* Mathematically calculated height for exactly 5 icons (40px each + 12px gaps) */
+            --icon-stack-height: 248px; 
         }
 
         body.light-mode {
@@ -59,15 +62,15 @@
             width: 100%;
             height: 100%;
             display: grid;
-            grid-template-columns: 1fr 2.5fr; 
-            gap: 40px; 
+            grid-template-columns: 1fr 2.2fr; 
+            gap: 25px; 
         }
 
         .panel {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 30px;
-            padding: 40px; 
+            padding: 30px; 
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
             display: flex;
             flex-direction: column;
@@ -79,27 +82,107 @@
         /* =========================================================
            LEFT COLUMN
            ========================================================= */
-        .left-column { height: 100%; display: flex; flex-direction: column; }
-        .left-static-top { flex-shrink: 0; }
+        .left-column { 
+            height: 100%; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
+        .left-static-top { 
+            flex-shrink: 0; 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 20px;
+            /* Lock the height of the entire top section */
+            height: var(--icon-stack-height); 
+        }
         
         .profile-image-wrapper { 
-            width: 100%; 
-            max-width: 280px; 
-            aspect-ratio: 3 / 4; 
+            flex-grow: 1; 
+            height: 100%; 
             border-radius: 20px; 
             overflow: hidden; 
             box-shadow: 0 15px 30px rgba(0,0,0,0.3); 
             border: 1px solid var(--border-color); 
-            margin-bottom: 25px; 
         }
         
         .profile-image-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        
-        .left-scrollable-middle { flex-grow: 1; overflow-y: auto; padding-right: 10px; margin-bottom: 20px; position: relative; }
+
+        /* The Vertical Icon Stack */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+            width: 40px;
+            height: 100%; 
+        }
+
+        /* The fixed Message Button */
+        .message-btn-icon {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 40px; 
+            height: 40px; 
+            background-color: var(--border-color); 
+            border: 1px solid var(--border-color); 
+            border-radius: 50%; 
+            color: var(--text-main); 
+            font-size: 16px; 
+            text-decoration: none; 
+            transition: all 0.3s ease; 
+            cursor: pointer;
+            flex-shrink: 0; 
+            z-index: 2;
+        }
+        .message-btn-icon:hover { 
+            background-color: var(--text-main); 
+            color: var(--bg-dark); 
+            transform: scale(1.05); 
+        }
+
+        /* Scrollable socials */
+        .social-links-scroll {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            scrollbar-width: none; 
+            flex-grow: 1; 
+        }
+        .social-links-scroll::-webkit-scrollbar { display: none; } 
+
+        .social-links-scroll a { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            width: 40px; 
+            height: 40px; 
+            background-color: var(--border-color); 
+            border: 1px solid var(--border-color); 
+            border-radius: 50%; 
+            color: var(--text-main); 
+            font-size: 16px; 
+            text-decoration: none; 
+            transition: all 0.3s ease; 
+            flex-shrink: 0;
+        }
+        .social-links-scroll a:hover { 
+            background-color: var(--text-main); 
+            color: var(--bg-dark); 
+            transform: scale(1.05); 
+        }
+
+        .left-scrollable-middle { 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding-right: 5px; 
+            margin-bottom: 10px; 
+            position: relative; 
+        }
         .left-scrollable-middle::-webkit-scrollbar { width: 4px; }
         .left-scrollable-middle::-webkit-scrollbar-thumb { background: var(--accent-line); border-radius: 10px; }
-        
-        .left-static-bottom { flex-shrink: 0; }
 
         .section-title { 
             font-size: 16px; 
@@ -107,7 +190,7 @@
             text-transform: uppercase; 
             letter-spacing: 1px; 
             padding-bottom: 10px; 
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
             position: relative; 
         }
 
@@ -131,25 +214,33 @@
             100% { transform: scaleX(1); opacity: 1; }
         }
 
-        .detail-list { list-style: none; margin-bottom: 30px; }
+        .detail-list { list-style: none; margin-bottom: 10px; }
         .detail-list li { margin-bottom: 15px; font-size: 14px; }
         .detail-list li strong { display: block; color: var(--text-main); margin-bottom: 3px; font-weight: 600; }
         .detail-list li span { color: var(--text-muted); font-size: 13px; }
-
-        .social-links { display: flex; gap: 15px; margin-top: 10px; }
-        .social-links a { display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; background-color: var(--border-color); border: 1px solid var(--border-color); border-radius: 50%; color: var(--text-main); font-size: 18px; text-decoration: none; transition: all 0.3s ease; }
-        .social-links a:hover { background-color: var(--text-main); color: var(--bg-dark); border-color: var(--text-main); transform: translateY(-3px); }
 
         /* =========================================================
            RIGHT COLUMN
            ========================================================= */
         .right-column { height: 100%; padding: 0; position: relative; }
 
-        .right-column-header { position: sticky; top: 0; background: transparent; z-index: 10; padding: 40px 40px 0 40px; transition: box-shadow 0.3s ease, background-color 0.4s ease; }
+        .right-column-header { 
+            position: sticky; 
+            top: 0; 
+            background: transparent; 
+            z-index: 10; 
+            padding: 30px 30px 0 30px; 
+            transition: box-shadow 0.3s ease, background-color 0.4s ease; 
+        }
         .right-column-header.is-sticky { box-shadow: 0 10px 20px -10px rgba(0,0,0,0.3); background-color: var(--card-bg-solid); }
         .right-column-header .section-title { margin-bottom: 0; padding-bottom: 20px; }
 
-        .right-scrollable-content { padding: 0 40px 40px 40px; overflow-y: auto; height: calc(100% - 80px); position: relative; }
+        .right-scrollable-content { 
+            padding: 0 30px 30px 30px; 
+            overflow-y: auto; 
+            height: calc(100% - 80px); 
+            position: relative; 
+        }
         .right-scrollable-content::-webkit-scrollbar { width: 6px; }
         .right-scrollable-content::-webkit-scrollbar-thumb { background: var(--accent-line); border-radius: 10px; }
 
@@ -334,14 +425,13 @@
         .login-footer a:hover { opacity: 0.7; }
         .hidden { display: none !important; }
 
-                /* =========================================================
-           RESPONSIVE MOBILE
+        /* =========================================================
+           RESPONSIVE MOBILE (Applying same logic horizontally)
            ========================================================= */
         @media (max-width: 900px) {
             body { 
                 overflow-y: auto; 
                 height: auto; 
-                /* Keep a tiny gap so the card doesn't touch the literal phone bezel */
                 padding: 20px 8px 90px 8px; 
             } 
             
@@ -350,11 +440,9 @@
                 flex-direction: column; 
                 gap: 20px; 
                 height: auto; 
-                /* No padding here so the panel stretches */
                 padding: 0; 
             }
             
-            /* Restore the On View Card Look (Curves, Border, Shadow) */
             .panel { 
                 padding: 20px; 
                 border-radius: 30px; 
@@ -364,20 +452,62 @@
             }
             
             .left-column { height: auto; overflow-y: visible; flex-shrink: 0; }
-            .left-scrollable-middle { flex-grow: 0; overflow-y: visible; padding-right: 0; margin-bottom: 0; }
-            .left-column .back-to-top { display: none !important; }
-            .profile-image-wrapper { margin: 0 auto 15px auto; max-width: 100%; }
             
-            /* Right column adjustments */
+            /* Mobile layout: Image on top, icons row below */
+            .left-static-top { 
+                flex-direction: column; 
+                align-items: center; 
+                gap: 15px;
+                height: auto; /* Remove fixed height so image can take the width */
+            }
+            
+            .profile-image-wrapper { 
+                margin: 0; 
+                width: 100%; 
+                max-width: 100%; 
+                /* Lock the height to the exact same fixed size as desktop */
+                height: var(--icon-stack-height); 
+            }
+
+            /* Change vertical icon stack to horizontal row */
+            .social-links { 
+                flex-direction: row; 
+                flex-wrap: nowrap; 
+                margin-bottom: 15px; 
+                width: 100%;
+                justify-content: flex-start; 
+                height: auto;
+                gap: 10px; 
+                overflow-x: auto; /* Allow scrolling horizontally for extra icons */
+                padding-bottom: 5px;
+                scrollbar-width: none;
+            }
+            .social-links::-webkit-scrollbar { display: none; }
+            
+            .social-links-scroll {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow: visible;
+                flex-grow: 0;
+                gap: 10px;
+            }
+
+            /* Reset scrollable areas for mobile */
+            .left-scrollable-middle { 
+                flex-grow: 0; 
+                overflow-y: visible; 
+                padding-right: 0; 
+                margin-bottom: 0; 
+            }
+            .left-column .back-to-top { display: none !important; }
+
             .right-column { padding: 0; height: calc(100vh - 100px); min-height: 500px; overflow: hidden; } 
             .right-column-header { padding: 20px 20px 0 20px; } 
             .right-scrollable-content { 
-                /* This controls the left/right spacing of the content inside the card */
                 padding: 0 15px 20px 15px; 
                 height: calc(100% - 65px); 
             }
             
-            /* Ensure Feed Posts have internal padding so text doesn't touch the walls */
             .post-card {
                 padding: 15px;
                 border-radius: 15px;
@@ -389,7 +519,6 @@
             .project-image { height: 180px; }
             .project-tags { justify-content: center; }
             
-            /* Grids: 2 columns, no weird margin pulling */
             .discovery-grid, .media-grid { 
                 grid-template-columns: repeat(2, 1fr); 
                 gap: 10px; 
@@ -405,18 +534,43 @@
         
         <!-- ================= LEFT COLUMN ================= -->
         <div class="left-column panel" id="leftCard">
+            
+            <!-- Image and Social Links side-by-side -->
             <div class="left-static-top">
                 <div class="profile-image-wrapper">
                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Kasie">
                 </div>
-                <h2 class="section-title">KASIE</h2>
+                
+                <!-- The Icon Stack -->
+                <div class="social-links">
+                    <!-- Fixed Message Button -->
+                    <button class="message-btn-icon" onclick="alert('Message feature coming soon!')">
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </button>
+                    
+                    <!-- Scrollable social links -->
+                    <div class="social-links-scroll">
+                        <a href="#" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="#" title="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" title="Snapchat"><i class="fa-brands fa-snapchat"></i></a>
+                        <a href="#" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" title="Pinterest"><i class="fa-brands fa-pinterest"></i></a>
+                    </div>
+                </div>
             </div>
 
+            <h2 class="section-title">KASIE</h2>
+            <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-muted);">Software, Web Development Path</p>
+
+            <!-- Scrollable details area -->
             <div class="left-scrollable-middle" id="leftScrollContent">
-                <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-muted);">Software, Web Development Path</p>
                 <ul class="detail-list">
                     <li><strong>Optics</strong><span>Eye Hospital: Senior technician</span><span>Opticians: Optical + Dispensing assistant</span></li>
                     <li><strong>Music Technology</strong><span>Write, Compose and Produce music</span></li>
+                    <li><strong>More Experience</strong><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></li>
+                    <li><strong>More Experience</strong><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></li>
                 </ul>
             </div>
 
@@ -424,13 +578,6 @@
                 <i class="fa-solid fa-arrow-up"></i>
             </button>
 
-            <div class="left-static-bottom">
-                <h3 style="font-size: 14px; margin-bottom: 15px; color: var(--text-muted);">Contact me via Email 📧</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fa-brands fa-github"></i></a>
-                    <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-                </div>
-            </div>
         </div>
 
         <!-- ================= RIGHT COLUMN ================= -->
@@ -567,7 +714,7 @@
                     </div>
                 </div>
 
-                <!-- TAB: MEDIA (Formerly Hobby) -->
+                <!-- TAB: MEDIA -->
                 <div id="media" class="tab-content">
                     <div class="media-grid">
                         <div class="media-tile"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Nature"><span class="overlay-tag">Nature</span></div>
