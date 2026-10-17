@@ -335,64 +335,26 @@
         .hidden { display: none !important; }
 
         /* =========================================================
-           RESPONSIVE MOBILE (THE FIX)
+           RESPONSIVE MOBILE
            ========================================================= */
         @media (max-width: 900px) {
-            body { 
-                overflow-y: auto; 
-                height: auto; 
-                padding: 10px 5px 0 5px; /* Tiny gap at top, no padding at bottom */
-            } 
-            
-            .app-container { 
-                display: flex; 
-                flex-direction: column; 
-                gap: 10px; 
-                height: auto; 
-            }
-            
-            /* Panels take almost full width, with rounded corners */
-            .panel { 
-                padding: 15px; 
-                border-radius: 20px; 
-                margin: 0; 
-            }
-
+            body { overflow-y: auto; height: auto; padding: 20px 15px 90px 15px; } 
+            .app-container { display: flex; flex-direction: column; gap: 20px; height: auto; }
+            .panel { padding: 20px; border-radius: 20px; }
             .left-column { height: auto; overflow-y: visible; flex-shrink: 0; }
             .left-scrollable-middle { flex-grow: 0; overflow-y: visible; padding-right: 0; margin-bottom: 0; }
             .left-column .back-to-top { display: none !important; }
             .profile-image-wrapper { margin: 0 auto 15px auto; max-width: 100%; }
-            
-            /* 
-               THE FIX:
-               Set the right column height to fill the remaining space above the nav.
-               The nav is fixed at the bottom. So right column should end at the top of the nav.
-            */
-            .right-column { 
-                padding: 0; 
-                height: calc(100vh - 80px); /* Height of screen minus nav */
-                min-height: 500px; 
-                overflow: hidden; 
-                margin-bottom: 80px; /* Push it up so it doesn't hide behind nav */
-            } 
-            
-            /* Tighter internal padding to maximize space */
-            .right-column-header { padding: 20px 15px 0 15px; } 
-            .right-scrollable-content { padding: 0 15px 20px 15px; height: calc(100% - 65px); }
-            
-            /* Back to top button sits comfortably */
-            .back-to-top { bottom: 15px; right: 15px; }
-
-            /* Squeeze inner content to edges */
-            .post-card { padding: 15px; }
-            .discovery-grid, .media-grid { gap: 8px; }
-            .project-card { grid-template-columns: 1fr; gap: 10px; text-align: center; padding: 10px; }
-            .project-image { height: 180px; }
-            .project-tags { justify-content: center; }
-            .post-media { height: 180px; }
-
+            .right-column { padding: 0; height: calc(100vh - 100px); min-height: 500px; overflow: hidden; } 
+            .right-column-header { padding: 20px 20px 0 20px; } 
+            .right-scrollable-content { padding: 0 20px 20px 20px; height: calc(100% - 65px); }
             .nav-items { gap: 15px; font-size: 12px; flex-wrap: wrap; justify-content: center; }
             .video-placeholder { height: 220px; }
+            .project-card { grid-template-columns: 1fr; gap: 15px; text-align: center; padding: 15px; }
+            .project-image { height: 180px; }
+            .project-tags { justify-content: center; }
+            .discovery-grid, .media-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .post-media { height: 180px; }
         }
     </style>
 </head>
