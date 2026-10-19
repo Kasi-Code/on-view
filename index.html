@@ -347,6 +347,12 @@
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
         .overlay.active { opacity: 1; visibility: visible; }
 
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+            display: flex; /* Ensures it centers properly */
+        }        
+
         /* =========================================================
            AUTH CARD
            ========================================================= */
@@ -482,6 +488,75 @@
 
     <!-- CUSTOM TOAST CONTAINER -->
     <div id="toast" class="custom-toast">Message goes here</div>
+
+    <!-- CUSTOM DELETE CONFIRMATION MODAL -->
+    <div id="delete-modal" class="overlay" style="z-index: 2000;">
+        <div class="settings-card" style="text-align: center; max-width: 350px;">
+            <h2 style="font-size: 18px; margin-bottom: 15px; color: var(--danger-color);">
+                <i class="fa-solid fa-triangle-exclamation"></i> Delete Account
+            </h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 25px; line-height: 1.5;">
+                Are you sure you want to delete your account? This action cannot be undone.
+            </p>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-submit" onclick="closeDeleteModal()" style="background-color: var(--border-color); color: var(--text-main); margin-top: 0;">
+                    Cancel
+                </button>
+                <button class="btn-submit" onclick="confirmDelete()" style="background-color: var(--danger-color); color: #fff; margin-top: 0;">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- CUSTOM EDIT PROFILE MODAL -->
+    <div id="edit-profile-modal" class="overlay" style="z-index: 2000;">
+        <div class="settings-card" style="text-align: center; max-width: 400px; padding: 30px;">
+            <h2 style="font-size: 18px; margin-bottom: 20px; color: var(--text-main);">
+                <i class="fa-solid fa-user-pen"></i> Edit Profile
+            </h2>
+            
+            <div class="form-group" style="text-align: left; margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-muted); margin-left: 10px; margin-bottom: 5px; display: block;">Full Name</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-id-badge prefix"></i>
+                    <input type="text" class="form-control" id="editFullName" placeholder="e.g. Britney Spears">
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-muted); margin-left: 10px; margin-bottom: 5px; display: block;">Date of Birth</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-calendar prefix"></i>
+                    <input type="date" class="form-control" id="editDob">
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-muted); margin-left: 10px; margin-bottom: 5px; display: block;">Password (leave blank to keep current)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock prefix"></i>
+                    <input type="password" class="form-control" id="editPassword" placeholder="••••••••">
+                </div>
+            </div>
+
+            <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                <label style="font-size: 12px; color: var(--text-muted); margin-left: 10px; margin-bottom: 5px; display: block;">Username</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-user prefix"></i>
+                    <input type="text" class="form-control" id="editUsername">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-submit" onclick="closeEditProfile()" style="background-color: var(--border-color); color: var(--text-main); margin-top: 0;">
+                    Cancel
+                </button>
+                <button class="btn-submit" onclick="saveProfileChanges()" style="background-color: var(--text-main); color: var(--bg-dark); margin-top: 0;">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div class="app-container">
         
@@ -769,6 +844,8 @@
                 <h2>Settings</h2>
                 <button class="settings-close" onclick="closeSettings()"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            
+            <!-- Dark Mode Row -->
             <div class="setting-row">
                 <div class="setting-label">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
@@ -779,6 +856,30 @@
                     <span class="slider"></span>
                 </label>
             </div>
+
+            <!-- Show Full Name Row -->
+            <div class="setting-row">
+                <div class="setting-label">
+                    <i class="fa-solid fa-signature"></i>
+                    <span>Show Full Name</span>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="nameToggle" onchange="toggleNameDisplay()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Edit Profile Row -->
+            <div class="setting-row" style="border-bottom: none;">
+                <div class="setting-label">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Edit Profile Name</span>
+                </div>
+                <button onclick="openEditProfile()" class="btn-submit" style="width: auto; padding: 8px 15px; font-size: 12px; margin-top: 0; border-radius: 20px;">
+                    Edit
+                </button>
+            </div>
+            
             <div class="settings-sub-header">Others</div>
             <div class="action-row" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i><span>Log Out</span></div>
             <div class="action-row danger" onclick="deleteAccount()"><i class="fa-solid fa-trash-can"></i><span>Delete Account</span></div>
@@ -818,6 +919,31 @@
 
                 if (data.success) {
                     isLoggedIn = true;
+                    
+                    
+                    // 1. SAVE THE USER TO THE BROWSER'S MEMORY
+                    localStorage.setItem('loggedInUser', usernameInput);
+                    localStorage.setItem('displayName', data.displayName);
+                    updateNameDisplay();
+
+                    // NEW: Apply the saved theme from the server
+                    if (data.theme === '0') {
+                        document.body.classList.add('light-mode');
+                        localStorage.setItem('savedTheme', 'light');
+                    } else {
+                        document.body.classList.remove('light-mode');
+                        localStorage.setItem('savedTheme', 'dark');
+                    }
+                    // Update the toggle switch UI in settings
+                    document.getElementById('themeToggle').checked = (data.theme === '0');
+                    updateThemeUI(data.theme === '0');
+
+                    closeLogin();
+                    
+                    // USE THE DISPLAY NAME FROM THE SERVER
+                    localStorage.setItem('displayName', data.displayName);
+                    document.querySelector('.left-column .section-title').innerText = data.displayName.toUpperCase();
+
                     closeLogin();
                     switchTab('feed-discovery', document.querySelector('.nav-item[data-tab="feed-discovery"]'), '');
                     showFeedView();
@@ -826,6 +952,7 @@
                     document.getElementById('loginPassword').value = '';
                     
                     showToast("Welcome back, " + usernameInput + "!");
+                    
                 } else {
                     showToast("Login Failed: " + data.message);
                 }
@@ -938,7 +1065,12 @@
             const isLight = document.body.classList.contains('light-mode');
             document.getElementById('themeToggle').checked = isLight;
             updateThemeUI(isLight);
+
+            // NEW: Set the Display Name toggle based on preference
+            const showFullName = localStorage.getItem('showFullName') !== 'false';
+            document.getElementById('nameToggle').checked = showFullName;
         }
+
         function closeSettings() {
             document.getElementById('settings-overlay').classList.remove('active');
         }
@@ -948,6 +1080,19 @@
             body.classList.toggle('light-mode');
             const isLight = body.classList.contains('light-mode');
             updateThemeUI(isLight);
+            
+            // Save to localStorage so it persists on refresh
+            localStorage.setItem('savedTheme', isLight ? 'light' : 'dark');
+
+            // NEW: Send the new preference to the server!
+            const currentUser = localStorage.getItem('loggedInUser');
+            if (currentUser) {
+                fetch('/api/update-theme', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser, theme: isLight ? '0' : '1' })
+                }).catch(err => console.error("Error saving theme:", err));
+            }
         }
 
         function updateThemeUI(isLight) {
@@ -966,6 +1111,9 @@
         function logout() {
             closeSettings();
             isLoggedIn = false;
+            localStorage.removeItem('loggedInUser');
+            localStorage.removeItem('displayName'); // Clear this too
+            document.querySelector('.left-column .section-title').innerText = 'KASIE';
             openLogin();
         }
 
@@ -979,8 +1127,25 @@
         }
 
         function helpSupport() {
-            showToast("Help & Support: For any issues, please contact support@onview.com");
+            showToast("Help & Support: Contact support@onview.com");
         }
+
+        function updateNameDisplay() {
+            const currentUser = localStorage.getItem('loggedInUser');
+            if (!currentUser) return; // If not logged in, do nothing
+
+            const displayName = localStorage.getItem('displayName') || currentUser;
+            const showFullName = localStorage.getItem('showFullName') !== 'false'; // Default is true
+
+            const nameToShow = showFullName ? displayName : currentUser;
+            document.querySelector('.left-column .section-title').innerText = nameToShow.toUpperCase();
+        }
+
+        function toggleNameDisplay() {
+            const isChecked = document.getElementById('nameToggle').checked;
+            localStorage.setItem('showFullName', isChecked);
+            updateNameDisplay(); // Immediately update the UI
+        }        
 
         function toggleLike(btn) {
             btn.classList.toggle('liked');
@@ -1002,9 +1167,23 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Check saved theme
+            const savedTheme = localStorage.getItem('savedTheme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+            }
             document.getElementById('dynamicTitle').style.display = 'none';
             document.getElementById('toggleHeader').style.display = 'flex';
             showFeedView();
+
+            // CHECK IF SOMEONE IS ALREADY LOGGED IN
+            const savedUser = localStorage.getItem('loggedInUser');
+            if (savedUser) {
+                isLoggedIn = true;
+                const savedDisplayName = localStorage.getItem('displayName') || savedUser;
+                document.querySelector('.left-column .section-title').innerText = savedDisplayName.toUpperCase();
+                closeLogin(); // Hide the login screen immediately
+            }
         });
 
         const rightContent = document.getElementById('rightScrollContent');
@@ -1028,6 +1207,128 @@
 
         function scrollRightToTop() { rightContent.scrollTo({ top: 0, behavior: 'smooth' }); }
         function scrollLeftToTop() { leftContent.scrollTo({ top: 0, behavior: 'smooth' }); }
+                function deleteAccount() {
+            // Instead of the ugly confirm(), we open our custom modal
+            document.getElementById('delete-modal').classList.add('active');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').classList.remove('active');
+        }
+
+        async function confirmDelete() {
+            const currentUser = localStorage.getItem('loggedInUser');
+            
+            if (!currentUser) {
+                showToast("You must be logged in to delete your account.");
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/delete-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    closeDeleteModal(); 
+                    closeSettings();    
+                    
+                    // Clear their memory since they are deleted
+                    localStorage.removeItem('loggedInUser');
+                    localStorage.removeItem('displayName');
+                    
+                    // Reset the UI
+                    document.querySelector('.left-column .section-title').innerText = 'KASIE';
+                    isLoggedIn = false;
+                    
+                    showToast("Account successfully deleted.");
+                    openLogin(); // Kick them back to the login screen
+                } else {
+                    showToast("Error: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error connecting to server:", error);
+                showToast("Could not connect to the server.");
+            }
+        }
+        
+        function logout() {
+            closeSettings();
+            isLoggedIn = false;
+            
+            // CLEAR THE MEMORY
+            localStorage.removeItem('loggedInUser');
+            
+            // Reset the name on the left column just in case
+            document.querySelector('.left-column .section-title').innerText = 'KASIE';
+
+            openLogin();
+        }
+        
+        function openEditProfile() {
+            const currentUser = localStorage.getItem('loggedInUser');
+            
+            // Set the fields (we leave password blank for security)
+            document.getElementById('editUsername').value = currentUser;
+            document.getElementById('editFullName').value = localStorage.getItem('displayName') || currentUser;
+            
+            // Clear the other fields to let them overwrite them
+            document.getElementById('editDob').value = "";
+            document.getElementById('editPassword').value = "";
+            
+            document.getElementById('edit-profile-modal').classList.add('active');
+        }
+
+        function closeEditProfile() {
+            document.getElementById('edit-profile-modal').classList.remove('active');
+        }
+
+        async function saveProfileChanges() {
+            const currentUser = localStorage.getItem('loggedInUser');
+            const newUsername = document.getElementById('editUsername').value;
+            const newDisplayName = document.getElementById('editFullName').value;
+            const newDob = document.getElementById('editDob').value;
+            const newPassword = document.getElementById('editPassword').value;
+
+            try {
+                const response = await fetch('/api/update-profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ currentUsername: currentUser, newUsername, newDisplayName, newDob, newPassword })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // If they changed their display name, update local memory so the UI shows it
+                    if (newDisplayName.trim()) {
+                        localStorage.setItem('displayName', newDisplayName);
+                    }
+                    
+                    // If they changed their username, update local memory so they stay logged in
+                    if (newUsername.trim()) {
+                        localStorage.setItem('loggedInUser', newUsername);
+                    }
+
+                    // Update UI
+                    const updatedNameForUI = newDisplayName.trim() || newUsername.trim() || currentUser;
+                    document.querySelector('.left-column .section-title').innerText = updatedNameForUI.toUpperCase();
+
+                    closeEditProfile();
+                    closeSettings();
+                    showToast("Profile updated successfully!");
+                } else {
+                    showToast("Error: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error connecting to server:", error);
+                showToast("Could not connect to the server.");
+            }
+        }
     </script>
 </body>
 </html>
