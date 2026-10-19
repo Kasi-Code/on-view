@@ -471,27 +471,37 @@
             }
 
             /* Change icon stack to a row on mobile */
-            .social-links { 
-                flex-direction: row; 
-                flex-wrap: nowrap; 
-                margin-bottom: 15px; 
-                width: 100%;
-                justify-content: flex-start; 
-                height: auto;
-                gap: 10px; 
-                overflow-x: auto; /* Allow scrolling horizontally for extra icons */
-                padding-bottom: 5px;
-                scrollbar-width: none;
-            }
-            .social-links::-webkit-scrollbar { display: none; }
-            
-            .social-links-scroll {
-                flex-direction: row;
-                flex-wrap: nowrap;
-                overflow: visible;
-                flex-grow: 0;
-                gap: 10px;
-            }
+.social-links { 
+    flex-direction: row; 
+    flex-wrap: nowrap; 
+    margin-bottom: 15px; 
+    width: 100%;
+    justify-content: flex-start; 
+    height: auto;
+    gap: 10px; 
+    overflow: visible;           /* let the inner scroll container do the scrolling */
+    padding-bottom: 5px;
+    scrollbar-width: none;
+}
+.social-links::-webkit-scrollbar { display: none; }
+
+/* Message button stays pinned on the left */
+.social-links .message-btn-icon {
+    flex-shrink: 0;
+}
+
+/* The socials scroll horizontally in the remaining space */
+.social-links-scroll {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;            /* this is the scroller now */
+    overflow-y: hidden;
+    flex-grow: 1;                /* fill remaining width next to message btn */
+    min-width: 0;                /* allow flex item to shrink/scroll properly */
+    gap: 10px;
+    scrollbar-width: none;
+}
+.social-links-scroll::-webkit-scrollbar { display: none; }
 
             /* Reset scrollable areas for mobile */
             .left-scrollable-middle { 
