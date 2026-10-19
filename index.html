@@ -23,7 +23,11 @@
             --danger-color: #ff4d6d;
             --bounce-curve: cubic-bezier(0.68, -0.55, 0.27, 1.55);
             
-            /* Mathematical height for 5 icons (40px each + 12px gaps) */
+            /* 
+               MATH UPDATE: 
+               Height is 248px (which perfectly fits 5 icons).
+               Because the image is 1:1, the image width will also be 248px.
+            */
             --icon-stack-height: 248px; 
         }
 
@@ -93,12 +97,10 @@
             display: flex; 
             gap: 15px; 
             margin-bottom: 20px;
-            /* Lock the height of the entire top section to match the icon stack */
             height: var(--icon-stack-height); 
         }
         
         .profile-image-wrapper { 
-            /* Force a 1:1 square aspect ratio */
             aspect-ratio: 1 / 1; 
             height: 100%; 
             border-radius: 20px; 
@@ -109,7 +111,6 @@
         
         .profile-image-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* The Vertical Icon Stack */
         .social-links {
             display: flex;
             flex-direction: column;
@@ -117,9 +118,9 @@
             flex-shrink: 0;
             width: 40px;
             height: 100%; 
+            position: relative;
         }
 
-        /* The fixed Message Button */
         .message-btn-icon {
             display: flex; 
             justify-content: center; 
@@ -143,7 +144,7 @@
             transform: scale(1.05); 
         }
 
-        /* Scrollable socials */
+        /* Scrollable socials with Fade Mask */
         .social-links-scroll {
             display: flex;
             flex-direction: column;
@@ -151,6 +152,10 @@
             overflow-y: auto;
             scrollbar-width: none; 
             flex-grow: 1; 
+            
+            /* Fade Mask: Starts fading at 75% so the 5th icon blends beautifully */
+            mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
         }
         .social-links-scroll::-webkit-scrollbar { display: none; } 
 
@@ -454,56 +459,57 @@
             
             .left-column { height: auto; overflow-y: visible; flex-shrink: 0; }
             
-            /* Mobile layout: Image on top, icons row below */
             .left-static-top { 
                 flex-direction: column; 
                 align-items: center; 
                 gap: 15px;
-                height: auto; /* Remove fixed height so image can take the width */
+                height: auto; 
             }
             
             .profile-image-wrapper { 
                 margin: 0; 
                 width: 100%; 
-                /* Keep it a square on mobile too */
                 height: auto; 
                 aspect-ratio: 1 / 1; 
             }
 
-            /* Change icon stack to a row on mobile */
-.social-links { 
-    flex-direction: row; 
-    flex-wrap: nowrap; 
-    margin-bottom: 15px; 
-    width: 100%;
-    justify-content: flex-start; 
-    height: auto;
-    gap: 10px; 
-    overflow: visible;           /* let the inner scroll container do the scrolling */
-    padding-bottom: 5px;
-    scrollbar-width: none;
-}
-.social-links::-webkit-scrollbar { display: none; }
+            /* Mobile layout: horizontal icon row */
+            .social-links { 
+                flex-direction: row; 
+                flex-wrap: nowrap; 
+                margin-bottom: 15px; 
+                width: 100%;
+                justify-content: flex-start; 
+                height: auto;
+                gap: 10px; 
+                overflow: visible; 
+                padding-bottom: 5px;
+                scrollbar-width: none;
+            }
+            .social-links::-webkit-scrollbar { display: none; }
+            
+            /* Keep message button pinned left */
+            .social-links .message-btn-icon {
+                flex-shrink: 0;
+            }
 
-/* Message button stays pinned on the left */
-.social-links .message-btn-icon {
-    flex-shrink: 0;
-}
+            /* The horizontal scroller for social icons */
+            .social-links-scroll {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                flex-grow: 1;
+                min-width: 0;
+                gap: 10px;
+                scrollbar-width: none;
+                
+                /* Adjust mask for horizontal scroll (fades the right side) */
+                mask-image: linear-gradient(to right, black 80%, transparent 100%);
+                -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+            }
+            .social-links-scroll::-webkit-scrollbar { display: none; }
 
-/* The socials scroll horizontally in the remaining space */
-.social-links-scroll {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;            /* this is the scroller now */
-    overflow-y: hidden;
-    flex-grow: 1;                /* fill remaining width next to message btn */
-    min-width: 0;                /* allow flex item to shrink/scroll properly */
-    gap: 10px;
-    scrollbar-width: none;
-}
-.social-links-scroll::-webkit-scrollbar { display: none; }
-
-            /* Reset scrollable areas for mobile */
             .left-scrollable-middle { 
                 flex-grow: 0; 
                 overflow-y: visible; 
