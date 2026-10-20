@@ -556,6 +556,66 @@
                 </button>
             </div>
         </div>
+    </div>    
+    <!-- CUSTOM WORK EXPERIENCE MODAL -->
+    <div id="experience-modal" class="overlay" style="z-index: 2000;">
+        <div class="settings-card" style="text-align: center; max-width: 400px; padding: 30px; max-height: 80vh; overflow-y: auto;">
+            <h2 style="font-size: 18px; margin-bottom: 20px; color: var(--text-main);">
+                <i class="fa-solid fa-briefcase"></i> Work Experience
+            </h2>
+            
+            <!-- The list of jobs will appear here -->
+            <div id="jobs-list" style="text-align: left; margin-bottom: 20px;">
+                <!-- Javascript will inject job items here -->
+            </div>
+
+            <div style="border-top: 1px solid var(--accent-line); padding-top: 15px; margin-bottom: 15px;">
+                <h3 style="font-size: 12px; color: var(--text-muted); text-align: left; margin-bottom: 10px;">Add New Job</h3>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-building prefix"></i>
+                        <input type="text" class="form-control" id="newJobTitle" placeholder="Job Title (e.g. Senior Technician)" style="padding-left: 50px;">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-align-left prefix"></i>
+                        <input type="text" class="form-control" id="newJobDesc" placeholder="Description (e.g. Eye Hospital)" style="padding-left: 50px;">
+                    </div>
+                </div>
+                <button onclick="addNewJob()" class="btn-submit" style="margin-top: 5px; padding: 10px; font-size: 14px; background-color: var(--border-color); color: var(--text-main);">
+                    <i class="fa-solid fa-plus"></i> Add to List
+                </button>
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-submit" onclick="closeExperienceModal()" style="background-color: var(--border-color); color: var(--text-main); margin-top: 0;">
+                    Cancel
+                </button>
+                <button class="btn-submit" onclick="saveExperienceChanges()" style="background-color: var(--text-main); color: var(--bg-dark); margin-top: 0;">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- CUSTOM EDIT BIO MODAL -->
+    <div id="bio-modal" class="overlay" style="z-index: 2000;">
+        <div class="settings-card" style="text-align: center; max-width: 400px; padding: 30px;">
+            <h2 style="font-size: 18px; margin-bottom: 20px; color: var(--text-main);">
+                <i class="fa-solid fa-address-card"></i> Edit About Me
+            </h2>
+            <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                <textarea id="editBioInput" class="form-control" placeholder="Tell us about yourself..." style="height: 150px; resize: none; padding: 15px; border-radius: 15px;"></textarea>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn-submit" onclick="closeBioModal()" style="background-color: var(--border-color); color: var(--text-main); margin-top: 0;">
+                    Cancel
+                </button>
+                <button class="btn-submit" onclick="saveBioChanges()" style="background-color: var(--text-main); color: var(--bg-dark); margin-top: 0;">
+                    Save
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="app-container">
@@ -590,7 +650,7 @@
             </div>
 
             <h2 class="section-title">KASIE</h2>
-            <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-muted);">Software, Web Development Path</p>
+            <!-- <p style="font-size: 14px; margin-bottom: 15px; color: var(--text-muted);">Software, Web Development Path</p> -->
 
             <!-- Scrollable details area -->
             <div class="left-scrollable-middle" id="leftScrollContent">
@@ -688,9 +748,11 @@
 
                 <!-- TAB: PROFILE -->
                 <div id="profile" class="tab-content">
-                    <p class="bio-text">Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...</p>
-                    <p class="bio-text">Moving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.</p>
-                    <p class="bio-text">I am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.</p>
+                    <div id="bio-content">
+                        <p class="bio-text">Example: Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...</p>
+                        <p class="bio-text">Moving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.</p>
+                        <p class="bio-text">I am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.</p>
+                    </div>
                 </div>
 
                 <!-- TAB: SKILLS -->
@@ -879,6 +941,24 @@
                     Edit
                 </button>
             </div>
+            <div class="setting-row" style="border-bottom: none;">
+                <div class="setting-label">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span>Edit Work Experience</span>
+                </div>
+                <button onclick="openExperienceModal()" class="btn-submit" style="width: auto; padding: 8px 15px; font-size: 12px; margin-top: 0; border-radius: 20px;">
+                    Edit
+                </button>
+            </div>
+            <div class="setting-row" style="border-bottom: none;">
+                <div class="setting-label">
+                    <i class="fa-solid fa-address-card"></i>
+                    <span>Edit About Me</span>
+                </div>
+                <button onclick="openBioModal()" class="btn-submit" style="width: auto; padding: 8px 15px; font-size: 12px; margin-top: 0; border-radius: 20px;">
+                    Edit
+                </button>
+            </div>
             
             <div class="settings-sub-header">Others</div>
             <div class="action-row" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i><span>Log Out</span></div>
@@ -901,6 +981,7 @@
 
     <script>
         let isLoggedIn = false;
+        let currentExperiences = [];
 
         async function handleRealLogin(event) {
             event.preventDefault(); 
@@ -920,13 +1001,17 @@
                 if (data.success) {
                     isLoggedIn = true;
                     
-                    
-                    // 1. SAVE THE USER TO THE BROWSER'S MEMORY
+                    // 1. Save all data to browser memory
                     localStorage.setItem('loggedInUser', usernameInput);
                     localStorage.setItem('displayName', data.displayName);
+                    localStorage.setItem('userExperience', data.experience);
+                    localStorage.setItem('userBio', data.bio); // Make sure this is saving correctly
+                    
+                    // 2. Update UI (Name, Experience, Theme)
                     updateNameDisplay();
-
-                    // NEW: Apply the saved theme from the server
+                    updateExperienceUI(); 
+                    updateBioUI(); // Update Bio here as well
+                    
                     if (data.theme === '0') {
                         document.body.classList.add('light-mode');
                         localStorage.setItem('savedTheme', 'light');
@@ -934,16 +1019,10 @@
                         document.body.classList.remove('light-mode');
                         localStorage.setItem('savedTheme', 'dark');
                     }
-                    // Update the toggle switch UI in settings
                     document.getElementById('themeToggle').checked = (data.theme === '0');
                     updateThemeUI(data.theme === '0');
 
-                    closeLogin();
-                    
-                    // USE THE DISPLAY NAME FROM THE SERVER
-                    localStorage.setItem('displayName', data.displayName);
-                    document.querySelector('.left-column .section-title').innerText = data.displayName.toUpperCase();
-
+                    // 3. Close overlays and show feed
                     closeLogin();
                     switchTab('feed-discovery', document.querySelector('.nav-item[data-tab="feed-discovery"]'), '');
                     showFeedView();
@@ -993,6 +1072,12 @@
 
         function skipLogin() {
             isLoggedIn = false;
+            localStorage.removeItem('loggedInUser');
+            localStorage.removeItem('displayName');
+            localStorage.removeItem('userExperience');
+            localStorage.removeItem('userBio');
+            document.querySelector('.left-column .section-title').innerText = 'KASIE';
+            
             closeLogin();
             switchTab('feed-discovery', document.querySelector('.nav-item[data-tab="feed-discovery"]'), '');
             showFeedView();
@@ -1066,7 +1151,6 @@
             document.getElementById('themeToggle').checked = isLight;
             updateThemeUI(isLight);
 
-            // NEW: Set the Display Name toggle based on preference
             const showFullName = localStorage.getItem('showFullName') !== 'false';
             document.getElementById('nameToggle').checked = showFullName;
         }
@@ -1081,10 +1165,8 @@
             const isLight = body.classList.contains('light-mode');
             updateThemeUI(isLight);
             
-            // Save to localStorage so it persists on refresh
             localStorage.setItem('savedTheme', isLight ? 'light' : 'dark');
 
-            // NEW: Send the new preference to the server!
             const currentUser = localStorage.getItem('loggedInUser');
             if (currentUser) {
                 fetch('/api/update-theme', {
@@ -1108,34 +1190,12 @@
             }
         }
 
-        function logout() {
-            closeSettings();
-            isLoggedIn = false;
-            localStorage.removeItem('loggedInUser');
-            localStorage.removeItem('displayName'); // Clear this too
-            document.querySelector('.left-column .section-title').innerText = 'KASIE';
-            openLogin();
-        }
-
-        function deleteAccount() {
-            if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-                alert("Account deletion is not available in this demo.");
-                closeSettings();
-                isLoggedIn = false;
-                openLogin();
-            }
-        }
-
-        function helpSupport() {
-            showToast("Help & Support: Contact support@onview.com");
-        }
-
         function updateNameDisplay() {
             const currentUser = localStorage.getItem('loggedInUser');
-            if (!currentUser) return; // If not logged in, do nothing
+            if (!currentUser) return; 
 
             const displayName = localStorage.getItem('displayName') || currentUser;
-            const showFullName = localStorage.getItem('showFullName') !== 'false'; // Default is true
+            const showFullName = localStorage.getItem('showFullName') !== 'false'; 
 
             const nameToShow = showFullName ? displayName : currentUser;
             document.querySelector('.left-column .section-title').innerText = nameToShow.toUpperCase();
@@ -1144,7 +1204,7 @@
         function toggleNameDisplay() {
             const isChecked = document.getElementById('nameToggle').checked;
             localStorage.setItem('showFullName', isChecked);
-            updateNameDisplay(); // Immediately update the UI
+            updateNameDisplay(); 
         }        
 
         function toggleLike(btn) {
@@ -1166,49 +1226,23 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check saved theme
-            const savedTheme = localStorage.getItem('savedTheme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-mode');
-            }
-            document.getElementById('dynamicTitle').style.display = 'none';
-            document.getElementById('toggleHeader').style.display = 'flex';
-            showFeedView();
+        function logout() {
+            closeSettings();
+            isLoggedIn = false;
+            localStorage.removeItem('loggedInUser');
+            localStorage.removeItem('displayName');
+            localStorage.removeItem('userExperience');
+            localStorage.removeItem('userBio');
+            document.querySelector('.left-column .section-title').innerText = 'KASIE';
+            openLogin();
+        }
 
-            // CHECK IF SOMEONE IS ALREADY LOGGED IN
-            const savedUser = localStorage.getItem('loggedInUser');
-            if (savedUser) {
-                isLoggedIn = true;
-                const savedDisplayName = localStorage.getItem('displayName') || savedUser;
-                document.querySelector('.left-column .section-title').innerText = savedDisplayName.toUpperCase();
-                closeLogin(); // Hide the login screen immediately
-            }
-        });
+        function helpSupport() {
+            showToast("Help & Support: Contact support@onview.com");
+        }
 
-        const rightContent = document.getElementById('rightScrollContent');
-        const leftContent = document.getElementById('leftScrollContent');
-        const stickyHeader = document.getElementById('stickyHeader');
-        const rightBackToTopBtn = document.getElementById('rightBackToTop');
-        const leftBackToTopBtn = document.getElementById('leftBackToTop');
-        
-        rightContent.addEventListener('scroll', () => {
-            if (rightContent.scrollTop > 10) { stickyHeader.classList.add('is-sticky'); } 
-            else { stickyHeader.classList.remove('is-sticky'); }
-
-            if (rightContent.scrollTop > 100) { rightBackToTopBtn.classList.add('show'); } 
-            else { rightBackToTopBtn.classList.remove('show'); }
-        });
-
-        leftContent.addEventListener('scroll', () => {
-            if (leftContent.scrollTop > 50) { leftBackToTopBtn.classList.add('show'); } 
-            else { leftBackToTopBtn.classList.remove('show'); }
-        });
-
-        function scrollRightToTop() { rightContent.scrollTo({ top: 0, behavior: 'smooth' }); }
-        function scrollLeftToTop() { leftContent.scrollTo({ top: 0, behavior: 'smooth' }); }
-                function deleteAccount() {
-            // Instead of the ugly confirm(), we open our custom modal
+        // --- DELETE ACCOUNT LOGIC ---
+        function deleteAccount() {
             document.getElementById('delete-modal').classList.add('active');
         }
 
@@ -1218,11 +1252,7 @@
 
         async function confirmDelete() {
             const currentUser = localStorage.getItem('loggedInUser');
-            
-            if (!currentUser) {
-                showToast("You must be logged in to delete your account.");
-                return;
-            }
+            if (!currentUser) return showToast("You must be logged in.");
 
             try {
                 const response = await fetch('/api/delete-account', {
@@ -1232,54 +1262,32 @@
                 });
 
                 const data = await response.json();
-
                 if (data.success) {
                     closeDeleteModal(); 
                     closeSettings();    
-                    
-                    // Clear their memory since they are deleted
                     localStorage.removeItem('loggedInUser');
                     localStorage.removeItem('displayName');
-                    
-                    // Reset the UI
+                    localStorage.removeItem('userExperience');
+                    localStorage.removeItem('userBio');
                     document.querySelector('.left-column .section-title').innerText = 'KASIE';
                     isLoggedIn = false;
-                    
                     showToast("Account successfully deleted.");
-                    openLogin(); // Kick them back to the login screen
+                    openLogin(); 
                 } else {
                     showToast("Error: " + data.message);
                 }
             } catch (error) {
-                console.error("Error connecting to server:", error);
                 showToast("Could not connect to the server.");
             }
         }
-        
-        function logout() {
-            closeSettings();
-            isLoggedIn = false;
-            
-            // CLEAR THE MEMORY
-            localStorage.removeItem('loggedInUser');
-            
-            // Reset the name on the left column just in case
-            document.querySelector('.left-column .section-title').innerText = 'KASIE';
 
-            openLogin();
-        }
-        
+        // --- EDIT PROFILE LOGIC ---
         function openEditProfile() {
             const currentUser = localStorage.getItem('loggedInUser');
-            
-            // Set the fields (we leave password blank for security)
             document.getElementById('editUsername').value = currentUser;
             document.getElementById('editFullName').value = localStorage.getItem('displayName') || currentUser;
-            
-            // Clear the other fields to let them overwrite them
             document.getElementById('editDob').value = "";
             document.getElementById('editPassword').value = "";
-            
             document.getElementById('edit-profile-modal').classList.add('active');
         }
 
@@ -1304,20 +1312,10 @@
                 const data = await response.json();
 
                 if (data.success) {
-                    // If they changed their display name, update local memory so the UI shows it
-                    if (newDisplayName.trim()) {
-                        localStorage.setItem('displayName', newDisplayName);
-                    }
+                    if (newDisplayName.trim()) localStorage.setItem('displayName', newDisplayName);
+                    if (newUsername.trim()) localStorage.setItem('loggedInUser', newUsername);
                     
-                    // If they changed their username, update local memory so they stay logged in
-                    if (newUsername.trim()) {
-                        localStorage.setItem('loggedInUser', newUsername);
-                    }
-
-                    // Update UI
-                    const updatedNameForUI = newDisplayName.trim() || newUsername.trim() || currentUser;
-                    document.querySelector('.left-column .section-title').innerText = updatedNameForUI.toUpperCase();
-
+                    updateNameDisplay();
                     closeEditProfile();
                     closeSettings();
                     showToast("Profile updated successfully!");
@@ -1325,10 +1323,235 @@
                     showToast("Error: " + data.message);
                 }
             } catch (error) {
-                console.error("Error connecting to server:", error);
                 showToast("Could not connect to the server.");
             }
         }
+
+        // --- EXPERIENCE LOGIC ---
+        function openExperienceModal() {
+            const savedExp = localStorage.getItem('userExperience');
+            currentExperiences = savedExp ? JSON.parse(savedExp) : [];
+            renderJobList();
+            document.getElementById('experience-modal').classList.add('active');
+        }
+
+        function closeExperienceModal() {
+            document.getElementById('experience-modal').classList.remove('active');
+        }
+
+        function renderJobList() {
+            const listContainer = document.getElementById('jobs-list');
+            listContainer.innerHTML = '';
+
+            if (currentExperiences.length === 0) {
+                listContainer.innerHTML = '<p style="font-size: 12px; color: var(--text-muted); text-align: center;">No experience added yet.</p>';
+                return;
+            }
+
+            currentExperiences.forEach((job, index) => {
+                listContainer.innerHTML += `
+                    <div style="background-color: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong style="display: block; font-size: 13px; color: var(--text-main);">${job.title}</strong>
+                            <span style="font-size: 11px; color: var(--text-muted);">${job.desc}</span>
+                        </div>
+                        <button onclick="removeJob(${index})" style="background: none; border: none; color: var(--danger-color); cursor: pointer;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function addNewJob() {
+            const title = document.getElementById('newJobTitle').value.trim();
+            const desc = document.getElementById('newJobDesc').value.trim();
+
+            if (!title || !desc) return showToast("Please fill in both fields.");
+
+            currentExperiences.push({ title: title, desc: desc });
+            document.getElementById('newJobTitle').value = '';
+            document.getElementById('newJobDesc').value = '';
+            renderJobList();
+        }
+
+        function removeJob(index) {
+            currentExperiences.splice(index, 1);
+            renderJobList();
+        }
+
+        async function saveExperienceChanges() {
+            const currentUser = localStorage.getItem('loggedInUser');
+            if (!currentUser) return;
+
+            try {
+                const response = await fetch('/api/update-experience', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser, experiences: currentExperiences })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('userExperience', JSON.stringify(currentExperiences));
+                    closeExperienceModal();
+                    closeSettings();
+                    showToast("Experience updated!");
+                    updateExperienceUI(); 
+                } else {
+                    showToast("Error: " + data.message);
+                }
+            } catch (error) {
+                showToast("Could not connect to server.");
+            }
+        }
+
+        function updateExperienceUI() {
+            const listContainer = document.querySelector('.left-scrollable-middle .detail-list');
+            const expData = localStorage.getItem('userExperience');
+            
+            // If there is no data saved at all (e.g., they clicked "Skip" entirely), keep the default HTML
+            if (expData === null) return; 
+
+            const experiences = JSON.parse(expData);
+
+            // ALWAYS clear the hardcoded list if a logged-in user has data (even if the array is empty)
+            listContainer.innerHTML = '';
+
+            if (experiences.length === 0) {
+                listContainer.innerHTML = '<li><span style="font-style: italic; color: var(--text-muted);">No experience added yet. Go to Settings > Edit Work Experience to add some.</span></li>';
+                return;
+            }
+
+            // Loop through the saved jobs and build the HTML
+            experiences.forEach(job => {
+                listContainer.innerHTML += `
+                    <li>
+                        <strong>${job.title}</strong>
+                        <span>${job.desc}</span>
+                    </li>
+                `;
+            });
+        }        
+        
+        // --- BIO LOGIC ---
+        function openBioModal() {
+            // Get the saved bio from LocalStorage
+            const savedBio = localStorage.getItem('userBio');
+            
+            // If it exists and isn't empty, use it. Otherwise, fall back to the default text.
+            if (savedBio && savedBio !== "undefined" && savedBio.trim() !== "") {
+                document.getElementById('editBioInput').value = savedBio;
+            } else {
+                // Safely grab the text from the DOM as a fallback
+                const bioContent = document.getElementById('bio-content');
+                let defaultText = "";
+                if (bioContent) {
+                     // Get all paragraphs and join them with line breaks
+                     const paragraphs = bioContent.querySelectorAll('p');
+                     defaultText = Array.from(paragraphs).map(p => p.innerText.trim()).join('\n\n');
+                }
+                document.getElementById('editBioInput').value = defaultText;
+            }
+            
+            document.getElementById('bio-modal').classList.add('active');
+        }
+
+        function closeBioModal() {
+            document.getElementById('bio-modal').classList.remove('active');
+        }
+
+        async function saveBioChanges() {
+            const currentUser = localStorage.getItem('loggedInUser');
+            if (!currentUser) return showToast("You must be logged in.");
+
+            let newBio = document.getElementById('editBioInput').value;
+            
+            // SAFETY NET: Never send 'undefined' to the server
+            if (!newBio || newBio === "undefined") {
+                newBio = "";
+            }
+
+            try {
+                const response = await fetch('/api/update-bio', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentUser, bio: newBio })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    localStorage.setItem('userBio', newBio);
+                    closeBioModal();
+                    closeSettings();
+                    showToast("About Me updated!");
+                    updateBioUI();
+                } else {
+                    showToast("Error: " + data.message);
+                }
+            } catch (error) {
+                showToast("Could not connect to server.");
+            }
+        }
+        
+        function updateBioUI() {
+            const bioContainer = document.getElementById('bio-content');
+            const savedBio = localStorage.getItem('userBio');
+            
+            if (!savedBio || savedBio === "undefined" || savedBio.trim() === "") return;
+
+            // THE FIX: Convert the literal "\n" back into actual line breaks
+            const formattedBio = savedBio.replace(/\\n/g, '\n');
+
+            const paragraphs = formattedBio.split('\n').filter(p => p.trim() !== '');
+            
+            bioContainer.innerHTML = '';
+            paragraphs.forEach(text => {
+                bioContainer.innerHTML += `<p class="bio-text">${text}</p>`;
+            });
+        }
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('savedTheme');
+            if (savedTheme === 'light') document.body.classList.add('light-mode');
+            
+            document.getElementById('dynamicTitle').style.display = 'none';
+            document.getElementById('toggleHeader').style.display = 'flex';
+            showFeedView();
+
+            const savedUser = localStorage.getItem('loggedInUser');
+            if (savedUser) {
+                isLoggedIn = true;
+                updateNameDisplay();
+                updateExperienceUI(); 
+                updateBioUI(); 
+                closeLogin(); 
+            }
+        });
+
+        // --- SCROLL LOGIC ---
+        const rightContent = document.getElementById('rightScrollContent');
+        const leftContent = document.getElementById('leftScrollContent');
+        const stickyHeader = document.getElementById('stickyHeader');
+        const rightBackToTopBtn = document.getElementById('rightBackToTop');
+        const leftBackToTopBtn = document.getElementById('leftBackToTop');
+        
+        rightContent.addEventListener('scroll', () => {
+            if (rightContent.scrollTop > 10) { stickyHeader.classList.add('is-sticky'); } 
+            else { stickyHeader.classList.remove('is-sticky'); }
+
+            if (rightContent.scrollTop > 100) { rightBackToTopBtn.classList.add('show'); } 
+            else { rightBackToTopBtn.classList.remove('show'); }
+        });
+
+        leftContent.addEventListener('scroll', () => {
+            if (leftContent.scrollTop > 50) { leftBackToTopBtn.classList.add('show'); } 
+            else { leftBackToTopBtn.classList.remove('show'); }
+        });
+
+        function scrollRightToTop() { rightContent.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function scrollLeftToTop() { leftContent.scrollTo({ top: 0, behavior: 'smooth' }); }
     </script>
 </body>
 </html>

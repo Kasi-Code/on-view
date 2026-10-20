@@ -1,6 +1,7 @@
-Kasie;Kueenasie;kueenasie@gmail.com;2026-04-18;Kasie Kueenasie;0
-Britney_s;HitMeBabyOneMoreTime;Britney.Spear@gmail.com;2000-01-01
-Health;Care;healthcare@gmail.com;2000-01-01
-On;View;onview@gmail.com;2027-01-01
-tech;Nology;technology@gmail.com;2000-01-01;Techyo Nologyco;1
-Software;Engineering;software@gmail.com;2456-01-01;Software;1
+Kasie;Kueenasie;kueenasie@gmail.com;2026-04-18;Kasie Kueenasie;0;[{"title":"Tech","desc":"Software Consultant"}];Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...\n\nMoving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.\n\nI am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.
+Health;Care;healthcare@gmail.com;2000-01-01;;1;;Example: Learning to code requires consistency, persistence and self-discipline. It has been a difficult journey but I have never done something so rewarding...\n\nMoving forward, I see myself matured as a skillful developer that continues to grow and learn as I understand that this is a fast growing and changing industry.\n\nI am proud to be a developer because I am always inspired to be a better me today than I was yesterday. I love to code simply because I have found myself.
+on;View;onview@gmail.com;2027-01-01;On View;0;[]
+tech;Nology;technology@gmail.com;2000-01-01;Techyo Nologyco;1;[];N/A
+software;Engineering;software@gmail.com;2000-01-01;software;0;[{"title":"Dev","desc":"Consultant"}];N/A 01
+Glos;Ter;Glos@gmail.com;3000-01-01;Glos;1;[{"title":"Tech","desc":"Consultant"},{"title":"Opticians","desc":"Assistant"}]
+wk;WK;wk@gmail.co.uk;2000-01-01;wk;1;[{"title":"Example","desc":"Example"}];
