@@ -4,4 +4,3 @@ on;View;onview@gmail.com;2027-01-01;On View;0;[]
 tech;Nology;technology@gmail.com;2000-01-01;Techyo Nologyco;1;[];N/A
 software;Engineering;software@gmail.com;2000-01-01;software;0;[{"title":"Dev","desc":"Consultant"}];N/A 01
 Glos;Ter;Glos@gmail.com;3000-01-01;Glos;1;[{"title":"Tech","desc":"Consultant"},{"title":"Opticians","desc":"Assistant"}]
-wk;WK;wk@gmail.co.uk;2000-01-01;wk;1;[{"title":"Example","desc":"Example"}];
