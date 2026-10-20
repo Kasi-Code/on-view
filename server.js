@@ -215,7 +215,7 @@ app.post('/api/update-bio', (req, res) => {
     });
 });
 
-// --- DELETE ACCOUNT ENDPOINT ---
+// --- LAST: DELETE ACCOUNT ENDPOINT ---
 app.post('/api/delete-account', (req, res) => {
     const { username } = req.body;
 
