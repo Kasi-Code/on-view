@@ -1,6 +1,6 @@
 # On View (oV) 🚀
 
-A sleek, full-stack social profile application with a modern, customizable UI. Built from scratch with vanilla HTML/CSS/JS and a lightweight Node.js/Express backend.
+A sleek, full-stack social profile application with a modern, customisable UI. Built from scratch with vanilla HTML/CSS/JS and a lightweight Node.js/Express backend.
 
 ## CLICK TO VIEW: https://kasi-code.github.io/on-view/
 
